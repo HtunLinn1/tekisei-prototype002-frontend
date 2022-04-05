@@ -86,7 +86,7 @@ export default {
           // ログアウト処理に関する設定
           logout: { url: '/v1/auth/sign_out', method: 'delete' },
           // ログイン時にユーザー情報を保存するか。
-          user: { url: '/v1/auth/user', method: 'get' } 
+          user: false
          },
        }
      },

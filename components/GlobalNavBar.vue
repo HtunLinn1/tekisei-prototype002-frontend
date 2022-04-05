@@ -7,7 +7,7 @@
     <div class="pl-3">
       <nuxt-link to="/">
         <h3 class="text">
-          Stress Check
+          Prototype
         </h3>
       </nuxt-link>
     </div>
@@ -25,6 +25,7 @@
         v-if="!$auth.loggedIn"
         rounded
         depressed
+        to="/login"
       >
         Login
       </v-btn>

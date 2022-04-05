@@ -3,14 +3,7 @@
     <h1 class="pt-3">
       Login
     </h1>
-    <v-alert
-      v-if="message"
-      border="top"
-      color="red lighten-2"
-      dark
-    >
-      {{ message }}
-    </v-alert>
+    <Notification v-if="error" :message="error" class="mb-4 pb-3" />
     <v-form ref="login_form">
       <v-text-field
         v-model="email"
@@ -37,6 +30,11 @@
             mdi-account-plus
           </v-icon>
           Create Account
+        </nuxt-link>
+      </div>
+      <div class="pt-4">
+        <nuxt-link to="/signup">
+          Password Reset
         </nuxt-link>
       </div>
     </v-form>
