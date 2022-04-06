@@ -1,7 +1,7 @@
 <template>
   <v-alert show variant="danger">
     <div v-for="m in message" :key="m.id">
-      <span>{{ m }}</span>
+      <span class="error-text">{{ m }}</span>
     </div>
   </v-alert>
 </template>
@@ -17,3 +17,8 @@ export default {
   }
 }
 </script>
+<style>
+  .error-text {
+    color: red;
+  }
+</style>

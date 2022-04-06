@@ -4,13 +4,16 @@
     color="#95A5A6"
     flat
   >
-    <div class="pl-3">
-      <nuxt-link to="/">
+    <v-row class="pl-3">
+      <nuxt-link class="header" to="/">
         <h3 class="text">
           Prototype
         </h3>
-      </nuxt-link>
-    </div>
+      </nuxt-link>&nbsp;&nbsp;&nbsp;
+      <p v-if="$auth.loggedIn" class="text">
+        {{ user }}
+      </p>
+    </v-row>
     <v-spacer />
     <v-responsive max-width="100">
       <v-btn
@@ -35,8 +38,13 @@
 
 <script>
 export default {
+  data() {
+    return {
+      user: null
+    }
+  },
   mounted() {
-    console.log(this.$auth)
+    this.user = localStorage.getItem('uid')
   },
   methods: {
     async logout() {
@@ -53,7 +61,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 a.nuxt-link-exact-active {
     font-weight: bold;
 }

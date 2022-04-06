@@ -1,34 +1,41 @@
 <template>
   <v-container class="pt-15">
-    <h1>Sign Up</h1>
-    <Notification v-if="error" :message="error" class="mb-4 pb-3" />
-    <v-form ref="signup_form">
-      <v-text-field
-        v-model="email"
-        type="email"
-        label="Email"
-        :rules="[required]"
-        prepend-icon="mdi-email"
-      />
-      <v-text-field
-        v-model="password"
-        label="Password"
-        type="password"
-        :rules="rules.password"
-        prepend-icon="mdi-lock"
-      />
-      <v-text-field
-        v-model="password_confirmation"
-        label="Confirm Password"
-        type="password"
-        :rules="[required]"
-        prepend-icon="mdi-lock"
-        class="pb-2"
-      />
-      <v-btn color="success" @click="signup">
-        Signup
-      </v-btn>
-    </v-form>
+    <v-card
+      class="my-10 pa-md-4 mx-auto pa-5"
+      max-width="500"
+    >
+      <h1 class="text-center">Sign Up</h1>
+      <Notification v-if="error" :message="error" class="mb-4 pb-3" />
+      <v-form ref="signup_form">
+        <v-text-field
+          v-model="email"
+          type="email"
+          label="Email"
+          :rules="[required]"
+          prepend-icon="mdi-email"
+        />
+        <v-text-field
+          v-model="password"
+          label="Password"
+          type="password"
+          :rules="rules.password"
+          prepend-icon="mdi-lock"
+        />
+        <v-text-field
+          v-model="password_confirmation"
+          label="Confirm Password"
+          type="password"
+          :rules="[required]"
+          prepend-icon="mdi-lock"
+          class="pb-2"
+        />
+        <div class="text-center">
+          <v-btn color="success" @click="signup">
+            Signup
+          </v-btn>
+        </div>
+      </v-form>
+    </v-card>
   </v-container>
 </template>
 
@@ -62,7 +69,7 @@ export default{
             email: this.email,
             password: this.password,
             password_confirmation: this.password_confirmation,
-            confirm_success_url: "http://localhost:3001"
+            confirm_success_url: "http://localhost:3000"
         }).then((response) => {
           this.error = ''
           this.$router.push('/login')

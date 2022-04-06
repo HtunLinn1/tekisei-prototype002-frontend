@@ -1,9 +1,20 @@
 <template>
   <v-container class="pt-15" fluid-width>
-    <h1 class="pt-3">
+    <div v-if="message" class="pt-3">
+    <v-alert
+      type="success"
+    >
+      {{ message }}
+    </v-alert>
+    </div>
+    <v-card
+      class="my-10 pa-md-4 mx-auto pa-5"
+      max-width="500"
+    >
+    <h1 class=" text-center">
       Login
     </h1>
-    <Notification v-if="error" :message="error" class="mb-4 pb-3" />
+    <Notification v-if="error" :message="error" />
     <v-form ref="login_form">
       <v-text-field
         v-model="email"
@@ -21,57 +32,67 @@
         :type="showPassword ? 'text' : 'password'"
         @click:append="showPassword = !showPassword"
       />
-      <v-btn color="primary" @click="login">
-        Login
-      </v-btn>
-      <div class="pt-4">
+      <div class="text-center">
+        <v-btn color="primary" @click="login">
+          Login
+        </v-btn>
+      </div>
+      <v-row class="pt-5 d-flex justify-space-around mb-2">
         <nuxt-link to="/signup">
           <v-icon color="primary" small>
             mdi-account-plus
           </v-icon>
           Create Account
         </nuxt-link>
-      </div>
-      <div class="pt-4">
-        <nuxt-link to="/signup">
+        <nuxt-link to="/password_reset">
           Password Reset
         </nuxt-link>
-      </div>
+      </v-row>
     </v-form>
+    </v-card>
   </v-container>
 </template>
 
 <script>
   export default {
     name: 'LoginPage',
-    middleware: 'auth',
     data() {
       return {
         email: '',
         password: '',
         error: null,
-        message: '',
+        message: null,
         showPassword: false,
         required: value => !!value || '必須です',
         min_length: value => value.length >= 8 || '短すぎです',
         max_length: value => value.length <= 20 || '長すぎです'
       }
     },
+    mounted() {
+      this.message = this.$route? this.$route.params.message : null
+    },
     methods: {
       async login() {
-        await this.$auth.loginWith('local', {
-          data: {
-            password: this.password,
-            email: this.email
-          }
-        })
-        .then(
-          (response) => {
-          },
-          (error) => {
-            this.error = error.response.data.errors
-          }
-        )
+        if (this.$refs.login_form.validate()) {
+          await this.$auth.loginWith('local', {
+            data: {
+              password: this.password,
+              email: this.email
+            }
+          })
+          .then(
+            (response) => {
+              console.log(response)
+              this.error = null
+            },
+            (error) => {
+              console.log(error)
+              this.error = error.response.data.errors
+            }
+          )
+        } else {
+          this.error = ['入力エラーがあります']
+        }
       }
     }
   }
