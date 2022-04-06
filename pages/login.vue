@@ -1,11 +1,11 @@
 <template>
   <v-container class="pt-15" fluid-width>
     <div v-if="message" class="pt-3">
-    <v-alert
-      type="success"
-    >
-      {{ message }}
-    </v-alert>
+      <v-alert
+        type="success"
+      >
+        {{ message }}
+      </v-alert>
     </div>
     <v-card
       class="my-10 pa-md-4 mx-auto pa-5"
