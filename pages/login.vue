@@ -56,6 +56,7 @@
 <script>
   export default {
     name: 'LoginPage',
+    middleware: 'auth',
     data() {
       return {
         email: '',
