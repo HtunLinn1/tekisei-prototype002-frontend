@@ -69,7 +69,7 @@ export default{
             email: this.email,
             password: this.password,
             password_confirmation: this.password_confirmation,
-            confirm_success_url: "http://localhost:3000"
+            confirm_success_url: "https://tekisei-ruby-proto-frontend.herokuapp.com/"
         }).then((response) => {
           this.error = ''
           this.$router.push('/login')

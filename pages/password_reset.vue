@@ -49,7 +49,7 @@ export default {
       if (this.$refs.password_reset.validate()) {
         await this.$axios.post('/v1/auth/password',{
           email: this.email,
-          redirect_url: "http://localhost:3000/password_edit"
+          redirect_url: "https://tekisei-ruby-proto-frontend.herokuapp.com/password_edit"
         }).then(
             (response) => {
               console.log(response)
