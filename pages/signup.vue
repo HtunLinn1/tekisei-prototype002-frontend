@@ -33,6 +33,10 @@
           class="pb-2"
           @click:append="showPassword = !showPassword"
         />
+        <v-checkbox
+          v-model="adminCheck"
+          label="Admin"
+        ></v-checkbox>
         <div class="text-center">
           <v-btn color="success" @click="signup">
             Signup
@@ -55,6 +59,7 @@ export default{
       error: null,
       showPassword: false,
       message: '',
+      adminCheck: false,
       rules: {
         password: [
           value => !!value || '必須です',
@@ -73,6 +78,7 @@ export default{
         email: this.email,
         password: this.password,
         password_confirmation: this.password_confirmation,
+        admin: this.adminCheck,
         confirm_success_url: process.env.NUXT_ENV_BASE_URL
       }
       await SignUpApi.signUp(signUpParams)
