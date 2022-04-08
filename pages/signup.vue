@@ -48,7 +48,7 @@
 </template>
 
 <script>
-import SignUpApi from '~/plugins/axios/user/signup'
+import SignUpApi from '~/plugins/axios/user/user'
 export default{
   name: 'SignupPage',
   data() {
