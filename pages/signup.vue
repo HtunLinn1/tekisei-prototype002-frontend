@@ -88,8 +88,6 @@ export default{
           this.$router.push('/login')
         },
         (error) => {
-          console.log('ERRRRRRROOOOORRRRRRRRR')
-          console.log(error)
           this.error = error.data.errors.full_messages
         }
       )
