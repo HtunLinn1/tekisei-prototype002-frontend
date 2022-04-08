@@ -79,7 +79,7 @@ export default{
         password: this.password,
         password_confirmation: this.password_confirmation,
         admin: this.adminCheck,
-        confirm_success_url: process.env.NUXT_ENV_BASE_URL
+        confirm_success_url: process.env.CONFIRM_SUCCESS_URL
       }
       await SignUpApi.signUp(signUpParams)
       .then(
