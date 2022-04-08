@@ -44,7 +44,7 @@
 </template>
 
 <script>
-
+import SignUpApi from '~/plugins/axios/user/signup'
 export default{
   name: 'SignupPage',
   data() {
@@ -69,19 +69,22 @@ export default{
   },
   methods: {
     async signup() {
-      try{
-        await this.$axios.post('/v1/auth',{
-            email: this.email,
-            password: this.password,
-            password_confirmation: this.password_confirmation,
-            confirm_success_url: "https://tekisei-ruby-proto-frontend.herokuapp.com/"
-        }).then((response) => {
+      const signUpParams = {
+        email: this.email,
+        password: this.password,
+        password_confirmation: this.password_confirmation,
+        confirm_success_url: process.env.NUXT_ENV_BASE_URL
+      }
+      await SignUpApi.signUp(signUpParams)
+      .then(
+        (response) => {
           this.error = ''
           this.$router.push('/login')
-        })   
-      }catch(e){
-        this.error = e.response.data.errors.full_messages
-      }
+        },
+        (error) => {
+          this.error = error.data.errors.full_messages
+        }
+      )
     }
   }
 }

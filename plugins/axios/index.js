@@ -1,4 +1,9 @@
-export default function({ $axios }) {
+// eslint-disable-next-line import/no-mutable-exports
+export let axios
+
+export default ({ $axios }) => {
+  $axios.defaults.baseURL = process.env.NUXT_ENV_BASE_URL
+
   $axios.onRequest(config => {
     config.headers.client = window.localStorage.getItem("client")
     config.headers["access-token"] = window.localStorage.getItem("access-token")
@@ -13,5 +18,12 @@ export default function({ $axios }) {
       localStorage.setItem("uid", response.headers.uid)
       localStorage.setItem("token-type", response.headers["token-type"])
     }
+    return Promise.resolve(response)
   })
+
+  $axios.onError((error) => {
+    return Promise.reject(error.response)
+  })
+
+  axios = $axios
 }
