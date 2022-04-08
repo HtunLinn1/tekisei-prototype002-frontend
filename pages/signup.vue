@@ -17,17 +17,21 @@
         <v-text-field
           v-model="password"
           label="Password"
-          type="password"
           :rules="rules.password"
           prepend-icon="mdi-lock"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
+          @click:append="showPassword = !showPassword"
         />
         <v-text-field
           v-model="password_confirmation"
           label="Confirm Password"
-          type="password"
           :rules="[required]"
           prepend-icon="mdi-lock"
+          :append-icon="showPassword ? 'mdi-eye' : 'mdi-eye-off'"
+          :type="showPassword ? 'text' : 'password'"
           class="pb-2"
+          @click:append="showPassword = !showPassword"
         />
         <div class="text-center">
           <v-btn color="success" @click="signup">
@@ -49,6 +53,7 @@ export default{
       password: '',
       password_confirmation: '',
       error: null,
+      showPassword: false,
       message: '',
       rules: {
         password: [
