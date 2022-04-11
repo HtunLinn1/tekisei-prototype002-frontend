@@ -83,11 +83,10 @@
           })
           .then(
             (response) => {
-              console.log(response)
+              localStorage.setItem("user-admin", JSON.stringify(response.data.data.admin))
               this.error = null
             },
             (error) => {
-              console.log(error)
               this.error = error.response.data.errors
             }
           )

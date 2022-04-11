@@ -2,7 +2,7 @@
   <v-row justify="center" align="center">
     <v-col cols="12" sm="8" md="6">
       <v-card class="logo py-4 d-flex justify-center">
-        Index Page
+        <UserList v-if="userAdmin" />
       </v-card>
     </v-col>
   </v-row>
@@ -12,5 +12,13 @@
 export default {
   name: 'IndexPage',
   middleware: 'auth',
+  data() {
+    return {
+      userAdmin: ''
+    }
+  },
+  mounted() {
+    this.userAdmin = JSON.parse(localStorage.getItem("user-admin"))
+  },
 }
 </script>

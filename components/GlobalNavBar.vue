@@ -11,7 +11,7 @@
         </h3>
       </nuxt-link>&nbsp;&nbsp;&nbsp;
       <p v-if="$auth.loggedIn" class="text">
-        {{ user }}
+        {{ email }}
       </p>
     </v-row>
     <v-spacer />
@@ -40,11 +40,11 @@
 export default {
   data() {
     return {
-      user: null
+      email: null
     }
   },
   mounted() {
-    this.user = localStorage.getItem('uid')
+    this.email = localStorage.getItem("uid")
   },
   methods: {
     async logout() {
@@ -54,6 +54,9 @@ export default {
           localStorage.removeItem("client")
           localStorage.removeItem("uid")
           localStorage.removeItem("token-type")
+
+          localStorage.removeItem("user-admin")
+          localStorage.clear()
         }
       )
     }
