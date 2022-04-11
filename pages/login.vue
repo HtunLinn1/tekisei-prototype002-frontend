@@ -87,7 +87,7 @@
               this.error = null
             },
             (error) => {
-              this.error = error.response.data.errors
+              this.error = error.data.errors
             }
           )
         } else {
