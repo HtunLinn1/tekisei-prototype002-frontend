@@ -13,7 +13,7 @@
       tile
       height="420"
     >
-      <v-card>
+      <v-card v-if="!isComplete">
         <v-card-title v-if="onboarding < 3" class="text text-sm-h6 text-body-1">
           ①次の計算式の□に当てはまる数値を５択より選択してください。
         </v-card-title>
@@ -27,7 +27,7 @@
           ④各列の左側の四つの図形は一定の法則に基づいて並んでいます。次にくる図形を５択より選択してください。
         </v-card-title>
       </v-card>
-      <div v-if="onboarding + 1 <= part1Qus.length" class="text-right">
+      <div v-if="!isComplete" class="text-right">
         {{ onboarding + 1 }} / {{ part1Qus.length }}
       </div>
       <v-window v-model="onboarding">
@@ -35,7 +35,8 @@
           v-for="qus in part1Qus"
           :key="qus.id"
         >
-          <Question :qus="qus" :onboarding="onboarding" @selectedAnswer="selectedAnswer($event)" />
+          <CompleteForm v-if="isComplete" />
+          <Question v-else :qus="qus" :onboarding="onboarding" @selectedAnswer="selectedAnswer($event)" />
         </v-window-item>
       </v-window>
 
@@ -47,7 +48,7 @@
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-btn
-          v-if="onboarding + 1 === part1Qus.length"
+          v-if="onboarding + 1 < part1Qus.length"
           text
           @click="next"
         >
@@ -55,10 +56,10 @@
         </v-btn>
         <v-btn
           v-else
-          text
+          color="primary"
           @click="next"
         >
-          <v-icon>mdi-chevron-right</v-icon>
+          完了
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -75,7 +76,8 @@ export default {
     min: localStorage.getItem("timer-min")? localStorage.getItem("timer-min") : 60,
     sec: localStorage.getItem("timer-sec")? localStorage.getItem("timer-sec") : 20,
     timerObj: null,
-    selected_answer: {}
+    selected_answer: {},
+    isComplete: false
   }),
   computed: {
     // timer
@@ -93,11 +95,19 @@ export default {
       return timeStrings[0] + ":" + timeStrings[1]
     }
   },
+  beforeDestroy () {
+    this.$nuxt.$off('SET_ONBOARDING')
+  },
   updated() {
     localStorage.setItem("timer-min", this.min)
     localStorage.setItem("timer-sec", this.sec)
   },
   mounted() {
+    // bus event
+    this.$nuxt.$on('SET_ONBOARDING', (data) => {
+      this.isComplete = false
+      this.onboarding = data
+    })
     // time start
     this.start()
     // selected answers
@@ -132,16 +142,21 @@ export default {
     },
     // slide
     next() {
+      if (this.onboarding  === this.part1Qus.length - 1) {
+        this.isComplete = true
+      }
+
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
-        ? 0
+        ? this.part1Qus.length
         : this.onboarding + 1;
 
       this.setLocalStorage()
     },
     prev() {
       this.onboarding = this.onboarding - 1 < 0
-        ? this.part1Qus.length - 1
+        ? 0
         : this.onboarding - 1;
+      this.isComplete = false
     },
     setLocalStorage () {
       const answers = JSON.parse(localStorage.getItem("selected-answers"))
