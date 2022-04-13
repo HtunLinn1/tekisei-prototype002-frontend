@@ -10,9 +10,6 @@
           Prototype
         </h3>
       </nuxt-link>&nbsp;&nbsp;&nbsp;
-      <p v-if="$auth.loggedIn" class="text">
-        {{ email }}
-      </p>
     </v-row>
     <v-spacer />
     <v-responsive max-width="100">
@@ -40,11 +37,7 @@
 export default {
   data() {
     return {
-      email: null
     }
-  },
-  mounted() {
-    this.email = localStorage.getItem("uid")
   },
   methods: {
     async logout() {

@@ -1,24 +1,25 @@
 <template>
-  <v-row justify="center" align="center">
-    <v-col cols="12" sm="8" md="6">
-      <v-card class="logo py-4 d-flex justify-center">
+  <v-container>
+    <v-row justify="center" align="center" class="pt-10">
+      <v-col cols="12">
         <UserList v-if="userAdmin" />
-      </v-card>
-    </v-col>
-  </v-row>
+        <TestTop v-else />
+      </v-col>
+    </v-row>
+  </v-container>
 </template>
 
 <script>
 export default {
-  name: 'IndexPage',
-  middleware: 'auth',
+  name: "IndexPage",
+  middleware: "auth",
   data() {
     return {
-      userAdmin: ''
-    }
+      userAdmin: ""
+    };
   },
   mounted() {
-    this.userAdmin = JSON.parse(localStorage.getItem("user-admin"))
-  },
+    this.userAdmin = JSON.parse(localStorage.getItem("user-admin"));
+  }
 }
 </script>
