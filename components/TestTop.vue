@@ -20,7 +20,7 @@
         </v-btn>
       </v-col>
     </v-row>
-    <v-row v-else justify="center" align="center">
+    <v-row v-else justify="center" align="center" class="pt-7">
       <v-col cols="12">
         <QuestionList />
       </v-col>
