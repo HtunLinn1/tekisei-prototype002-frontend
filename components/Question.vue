@@ -1,81 +1,59 @@
 <template>
-  <div>
-    <v-card
-      color="transparent"
-      height="390"
-    >
-      <v-row
-        class="fill-height"
-        align="center"
-        justify="center"
-      >
-        <v-card-text class="text-center" color="black">
-          <div v-if="('qus_text' in qus)">
-            <div class="d-flex justify-start mb-6">
-              <span class="pr-3">
+  <v-card>
+    <v-row justify="center" align="center" class="fill-height pt-5">
+      <v-card-text class="text-center" justify="center" align="center">
+        <v-row v-if="'qus_text' in qus" class="fill-height">
+          <v-col
+            cols="12"
+            sm="6"
+            md="6"
+            class="text-body-1 text-sm-h5"
+          >
+            <span class="pr-4">{{ onboarding + 1 }}.</span> {{ qus.qus_text }}
+          </v-col>
+          <div v-for="(ans, i) in qus.ans" :key="i" class="text-body-1 text-sm-h5 ml-8">
+            ({{ i + 1 }})&nbsp;<br>
+            {{ ans }}
+          </div><br>
+        </v-row>
+        <v-row v-else>
+          <v-col
+            cols="12"
+            sm="6"
+            md="6"
+          >
+            <div class="d-flex justify-start">
+              <span class="pt-2 text-sm-h5">
                 {{ onboarding + 1 }}.
               </span>
-              <p>
-                {{ qus.qus_text }}
-              </p>
+              <span>
+                <v-img :src="require(`~/assets/images/${qus.url_qus}`)" />
+              </span>
             </div>
-            <v-chip-group
-              active-class="primary--text"
-              column
-              class="answer-btn"
-            >
-              <v-chip
-                v-for="(ans, index) in qus.ans"
-                :key="index"
-                class="button"
-              >
-                {{ ans }}
-              </v-chip>
-            </v-chip-group>
-          </div>
-          <div v-else>
-            <v-row>
-              <v-col
-                cols="12"
-                sm="6"
-                md="6"
-              >
-                <div class="d-flex justify-start mb-6">
-                  <span class="pt-2">
-                    {{ onboarding + 1 }}.
-                  </span>
-                  <v-img
-                    max-height="500"
-                    :src="require(`../assets/images/${qus.url_qus}`)"
-                  />
-                </div>
-              </v-col>
-              <v-col
-                cols="12"
-                sm="6"
-                md="6"
-              >
-                <v-img :src="require(`../assets/images/${qus.url_ans}`)" />
-              </v-col>
-            </v-row>
-            <v-chip-group
-              active-class="primary--text"
-              column
-              class="answer-btn"
-            >
-              <v-chip
-                v-for="(ans, index) in 5"
-                :key="index"
-                class="button"
-              >
-                {{ ans }}
-              </v-chip>
-            </v-chip-group>
-          </div>
-        </v-card-text>
-      </v-row>
-    </v-card>
-  </div>
+          </v-col>
+          <v-col
+            cols="12"
+            sm="6"
+            md="6"
+          >
+            <v-img :src="require(`~/assets/images/${qus.url_ans}`)" />
+          </v-col>
+        </v-row><v-row><v-col></v-col></v-row>
+        <v-chip-group v-model="selection" active-class="primary--text " column class="answer-btn">
+          <v-chip
+            v-for="(ans, i) in qus.ans"
+            :key="i"
+            :value="ans"
+            class="button"
+            pill
+          >
+          <div v-if="'qus_text' in qus">({{ i + 1 }})&nbsp;{{ qus.ans[i] }}</div>
+          <div v-else>({{ i + 1 }})</div>
+          </v-chip>
+        </v-chip-group>
+      </v-card-text>
+    </v-row>
+  </v-card>
 </template>
 
 <script>
@@ -87,6 +65,11 @@ export default {
     },
     onboarding: {
       type: Number, default: null
+    }
+  },
+  data() {
+    return {
+      selection: ''
     }
   },
 }
