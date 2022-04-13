@@ -37,6 +37,9 @@
             md="6"
           >
             <div class="d-flex justify-start">
+              <v-checkbox
+                v-model="checkbox"
+              />
               <span class="pt-2 text-sm-h5">
                 {{ onboarding + 1 }}.
               </span>
@@ -83,6 +86,30 @@ export default {
     return {
       selection: '',
       checkbox: false
+    }
+  },
+  updated() {
+    this.emit()
+  },
+  mounted() {
+    this.emit()
+  },
+  methods: {
+    emit () {
+      this.$emit('selectedAnswer', { 
+        qusId: this.qus.id,
+        answer: this.selection,
+        onboarding: this.onboarding,
+        checkbox: this.checkbox
+      })
+    },
+    getAnswer () {
+      const answers = JSON.parse(localStorage.getItem("selected-answers"))
+      const index = answers.findIndex(ans => ans.qusId === this.qus.qusId)
+      if (index !== -1) {
+        this.radioBtnValue = answers[index].answer
+        this.checkbox = answers[index].checkbox
+      }
     }
   },
 }

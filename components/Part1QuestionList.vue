@@ -35,7 +35,7 @@
           v-for="qus in part1Qus"
           :key="qus.id"
         >
-          <Question :qus="qus" :onboarding="onboarding" />
+          <Question :qus="qus" :onboarding="onboarding" @selectedAnswer="selectedAnswer($event)" />
         </v-window-item>
       </v-window>
 
@@ -47,6 +47,14 @@
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-btn
+          v-if="onboarding + 1 === part1Qus.length"
+          text
+          @click="next"
+        >
+          <v-icon>mdi-chevron-right</v-icon>
+        </v-btn>
+        <v-btn
+          v-else
           text
           @click="next"
         >
@@ -66,7 +74,8 @@ export default {
     // timer
     min: localStorage.getItem("timer-min")? localStorage.getItem("timer-min") : 60,
     sec: localStorage.getItem("timer-sec")? localStorage.getItem("timer-sec") : 20,
-    timerObj: null
+    timerObj: null,
+    selected_answer: {}
   }),
   computed: {
     // timer
@@ -91,6 +100,12 @@ export default {
   mounted() {
     // time start
     this.start()
+    // selected answers
+    localStorage.setItem("selected-answers",
+      localStorage.getItem("selected-answers") !== null? 
+        localStorage.getItem("selected-answers") : 
+        JSON.stringify([])
+    )
   },
   methods: {
     // timer
@@ -112,17 +127,34 @@ export default {
       clearInterval(this.timerObj)
       this.$emit('testFinish', { part: 'part1' })
     },
+    selectedAnswer (answer) {
+      this.selected_answer = answer
+    },
     // slide
     next() {
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
         ? 0
         : this.onboarding + 1;
+
+      this.setLocalStorage()
     },
     prev() {
       this.onboarding = this.onboarding - 1 < 0
         ? this.part1Qus.length - 1
         : this.onboarding - 1;
     },
+    setLocalStorage () {
+      const answers = JSON.parse(localStorage.getItem("selected-answers"))
+      const index = answers.findIndex(ans => ans.qusId === this.selected_answer.qusId)
+      if (index === -1) {
+        answers.push(this.selected_answer)
+      } else {
+        answers[index].qusId = this.selected_answer.qusId
+        answers[index].answer = this.selected_answer.answer
+        answers[index].checkbox = this.selected_answer.checkbox
+      }
+      localStorage.setItem("selected-answers", JSON.stringify(answers))
+    }
   },
 }
 </script>
