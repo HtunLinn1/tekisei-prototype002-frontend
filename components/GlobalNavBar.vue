@@ -49,6 +49,9 @@ export default {
           localStorage.removeItem("token-type")
 
           localStorage.removeItem("user-admin")
+          localStorage.removeItem("user-click-part")
+          localStorage.removeItem("timer-min")
+          localStorage.removeItem("timer-sec")
           localStorage.clear()
         }
       )

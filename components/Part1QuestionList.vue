@@ -1,5 +1,12 @@
 <template>
-  <v-container>
+  <v-container class="question">
+    <div class="timer-absolute">
+      <div class="timer">
+        <div class="time">
+          {{ formatTime }}
+        </div>
+      </div>
+    </div>
     <v-card
       color="white"
       flat
@@ -54,21 +61,87 @@
 import questions from '@/assets/data/questionList.json'
 export default {
   data: () => ({
-      length: 3,
-      part1Qus: questions,
-      onboarding: 0,
+    part1Qus: questions,
+    onboarding: 0,
+    // timer
+    min: localStorage.getItem("timer-min")? localStorage.getItem("timer-min") : 60,
+    sec: localStorage.getItem("timer-sec")? localStorage.getItem("timer-sec") : 20,
+    timerObj: null
   }),
+  computed: {
+    // timer
+    formatTime() {
+      const timeStrings = [
+        this.min.toString(),
+        this.sec.toString()
+      ].map(function(str) {
+        if (str.length < 2) {
+          return "0" + str
+        } else {
+          return str
+        }
+      })
+      return timeStrings[0] + ":" + timeStrings[1]
+    }
+  },
+  updated() {
+    localStorage.setItem("timer-min", this.min)
+    localStorage.setItem("timer-sec", this.sec)
+  },
+  mounted() {
+    // time start
+    this.start()
+  },
   methods: {
-      next() {
-        this.onboarding = this.onboarding + 1 === this.part1Qus.length
-            ? 0
-            : this.onboarding + 1;
-      },
-      prev() {
-        this.onboarding = this.onboarding - 1 < 0
-            ? this.part1Qus.length - 1
-            : this.onboarding - 1;
-      },
+    // timer
+    count() {
+      if (this.sec <= 0 && this.min >= 1) {
+        this.min --;
+        this.sec = 59;
+      } else if(this.sec <= 0 && this.min <= 0) {
+        this.complete();
+      } else {
+        this.sec --;
+      }
+    },
+    start() {
+      const self = this;
+      this.timerObj = setInterval(function() {self.count()}, 1000)
+    },
+    complete() {
+      clearInterval(this.timerObj)
+      this.$emit('testFinish', { part: 'part1' })
+    },
+    // slide
+    next() {
+      this.onboarding = this.onboarding + 1 === this.part1Qus.length
+        ? 0
+        : this.onboarding + 1;
+    },
+    prev() {
+      this.onboarding = this.onboarding - 1 < 0
+        ? this.part1Qus.length - 1
+        : this.onboarding - 1;
+    },
   },
 }
 </script>
+
+<style scoped>
+  .timer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .time {
+    font-size: 30px;
+  }
+  .question {
+    position: relative;
+  }
+  .timer-absolute {
+    position: absolute;
+    top: -30px;
+    right: 0;
+  }
+</style>
