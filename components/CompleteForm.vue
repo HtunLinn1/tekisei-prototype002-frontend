@@ -10,7 +10,7 @@
     <v-container>
       <v-row>
         <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4">
-          <div class="d-flex justify-space-between mb-6">
+          <div class="d-flex flex-row mb-6">
             <v-chip
               class=" chip"
               :color="ans.answer === ''? '#E9967A' : '#82E0AA'"

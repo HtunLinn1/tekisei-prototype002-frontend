@@ -42,15 +42,13 @@
 
       <v-card-actions class="justify-space-between">
         <v-btn
-          text
-          :disabled="isComplete"
+          :disabled="isComplete || onboarding === 0"
           @click="prev"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-btn
           v-if="onboarding + 1 < part1Qus.length && !isComplete"
-          text
           @click="next"
         >
           <v-icon>mdi-chevron-right</v-icon>
