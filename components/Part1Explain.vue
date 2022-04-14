@@ -90,8 +90,8 @@
                     class="text-body1"
                   >
                     <v-row class="text-h6 ml-8">
-                      <v-col v-for="(ans, i) in qus.answer" :key="i">
-                        ({{ i + 1 }})&nbsp;<br>
+                      <v-col v-for="(ans, index) in qus.answer" :key="index">
+                        ({{ index + 1 }})&nbsp;<br>
                         {{ ans }}
                       </v-col>
                     </v-row>
