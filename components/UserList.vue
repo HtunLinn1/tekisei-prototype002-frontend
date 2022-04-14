@@ -26,7 +26,7 @@
             </td>
           </tr>
         </tbody>
-        <UserDeleteDialog ref="confirm" />
+        <DialogMessage ref="confirm" />
       </template>
     </v-simple-table>
   </div>
@@ -35,38 +35,36 @@
 <script>
 import UsersApi from '~/plugins/axios/user/user'
 export default {
-  name: 'UserListPage',
-  data() {
-    return {
-      users: [],
-      error: '',
-      uid: localStorage.getItem("uid")
-    }
-  },
-  mounted() {
-    this.getUserList()
-  },
-  methods: {
-    async getUserList() {
-      await UsersApi.getUsers()
-      .then(
-        (response) => {
-          this.users = response.data.users
-        },
-        (error) => {
-          this.error = error.data.errors.full_messages
-        }
-      )
+    name: "UserListPage",
+    data() {
+        return {
+            users: [],
+            error: "",
+            uid: localStorage.getItem("uid")
+        };
     },
-    async remove (userId) {
-      console.log('--onClickOpen')
-      if (await this.$refs.confirm.open('Delete', 'Are you sure want to delete?', userId, { color: 'red' })) {
-        console.log('--yes')
-        this.getUserList()
-      }else{
-        console.log('--no')
+    mounted() {
+      this.getUserList();
+    },
+    methods: {
+      async getUserList() {
+          await UsersApi.getUsers()
+              .then((response) => {
+              this.users = response.data.users;
+          }, (error) => {
+              this.error = error.data.errors.full_messages;
+          });
+      },
+      async remove(userId) {
+        console.log("--onClickOpen");
+        if (await this.$refs.confirm.open("Delete", "Are you sure want to delete?", userId, { color: "red" })) {
+          console.log("--yes");
+          this.getUserList();
+        }
+        else {
+          console.log("--no");
+        }
       }
-    }
-  },
+    },
 }
 </script>

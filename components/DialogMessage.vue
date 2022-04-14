@@ -41,16 +41,21 @@ export default {
       })
     },
     async agree() {
-      await UsersApi.deleteUser(this.userId)
-      .then(
-        (response) => {
-          this.resolve(true)
-          this.dialog = false
-        },
-        (error) => {
-          console.log(error)
-        }
-      )
+      if (this.userId !== '') {
+        await UsersApi.deleteUser(this.userId)
+        .then(
+          (response) => {
+            this.resolve(true)
+            this.dialog = false
+          },
+          (error) => {
+            console.log(error)
+          }
+        )
+      } else if (this.userId === '') {
+        this.resolve(true)
+        this.dialog = false
+      }
     },
     cancel() {
       this.resolve(false)

@@ -71,6 +71,7 @@
         </v-btn>
       </v-card-actions>
     </v-card>
+    <DialogMessage ref="confirm" />
   </v-container>
 </template>
 
@@ -118,6 +119,8 @@ export default {
     this.start()
     // onboarding
     this.onboarding = JSON.parse(localStorage.getItem("onboarding"))
+    // is complete
+    this.isComplete = JSON.parse(localStorage.getItem("is-complete"))
   },
   methods: {
     // timer
@@ -146,6 +149,7 @@ export default {
     next() {
       if (this.onboarding  === this.part1Qus.length - 1) {
         this.isComplete = true
+        localStorage.setItem('is-complete', JSON.stringify(this.isComplete))
       }
 
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
@@ -174,13 +178,23 @@ export default {
     },
     jumpQus (onboarding) {
       this.isComplete = false
+      localStorage.setItem("is-complete", this.isComplete)
       this.onboarding = onboarding
     },
-    sendAns () {
-      const answers = JSON.parse(localStorage.getItem("selected-answers"))
-      console.log(answers)
-      this.isComplete = false
-      this.$emit('testFinish', { part: 'part1' })
+    async sendAns () {
+      if (await this.$refs.confirm.open("Finish", "Are you sure want to finish?", '', { color: "blue" })) {
+        console.log("--yes");
+        const answers = JSON.parse(localStorage.getItem("selected-answers"))
+        console.log(answers)
+        this.isComplete = false
+        localStorage.removeItem("is-complete")
+        localStorage.removeItem("selected-answers")
+        localStorage.removeItem("onboarding")
+        this.$emit('testFinish', { part: 'part1' })
+      }
+      else {
+        console.log("--no");
+      }
     }
   },
 }

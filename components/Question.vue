@@ -58,7 +58,7 @@
           <v-chip
             v-for="(ans, i) in qus.ans"
             :key="i"
-            :value="ans"
+            :value="i + 1"
             class="button"
             pill
           >
