@@ -190,6 +190,7 @@ export default {
         localStorage.removeItem("is-complete")
         localStorage.removeItem("selected-answers")
         localStorage.removeItem("onboarding")
+        localStorage.removeItem("timer")
         this.$emit('testFinish', { part: 'part1' })
       }
       else {
