@@ -1,5 +1,11 @@
 <template>
   <v-container>
+    <p v-if="answered_index === -1">
+      終了してよろしいですか
+    </p>
+    <p v-else>
+      未回答の問題があります
+    </p>
     <div v-for="(ans) in selected_answers" :key="ans.qusId">
       <v-chip
         class="ma-2 chip"
@@ -27,8 +33,8 @@ export default {
   },
   mounted() {
     this.selected_answers = JSON.parse(localStorage.getItem("selected-answers"))
-    console.log(this.selected_answers)
-    this.answered_index = this.selected_answers.findIndex(ans => ans.ans === '')
+    this.answered_index = this.selected_answers.findIndex(ans => ans.answer === "")
+    console.log(this.answered_index)
   },
   methods: {
     clickQusId(onboarding) {
