@@ -38,7 +38,7 @@ export default {
     }
   },
   mounted() {
-    this.isFinishPartOne = localStorage.getItem("isfinish-part-one")
+    this.isFinishPartOne = JSON.parse(localStorage.getItem("isfinish-part-one"))
     if (localStorage.getItem("user-click-part") === 'part1') {
       this.partOneQuestionList = true
     }
@@ -55,8 +55,8 @@ export default {
       if (status.part === 'part1') {
         this.partOneQuestionList = false
         localStorage.setItem("user-click-part", '')
-        localStorage.setItem("isfinish-part-one", true)
         this.isFinishPartOne = true
+        localStorage.setItem("isfinish-part-one", JSON.stringify(this.isFinishPartOne))
       }
     }
   },
