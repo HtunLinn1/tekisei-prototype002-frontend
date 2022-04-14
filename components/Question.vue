@@ -136,7 +136,7 @@ export default {
   min-width: 90%;
 }
 .checkbox {
-  transform: scale(1.8);
+  transform: scale(1.2);
 }
 .v-input--selection-controls__ripple {
   display: none;

@@ -1,27 +1,33 @@
 <template>
   <v-container class="text-center">
-    <p v-if="answered_index === -1">
+    <p v-if="answered_index === -1" class="text-h5">
       Part1の問題はいじょうです。<br>
       終了してよろしいですか
     </p>
-    <p v-else>
-      未回答の問題があります。
+    <p v-else class="text-h5">
+      Part1の問題に未回答の問題があります。
     </p>
-    <v-row>
-      <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4">
-        <v-chip
-          class="ma-2 chip"
-          :color="ans.answer === ''? '#E9967A' : '#82E0AA'"
-          text-color="white"
-          width="200"
-          @click="clickQusId(ans.onboarding)"
-        >
-          {{ ans.qusId }} .&nbsp;
-          {{ ans.answer }}
-        </v-chip>
-        <span v-if="ans.checkbox" class="star">*</span>
-      </v-col>
-    </v-row>
+    <v-container>
+      <v-row>
+        <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4">
+          <div class="d-flex justify-space-between mb-6">
+            <v-chip
+              class=" chip"
+              :color="ans.answer === ''? '#E9967A' : '#82E0AA'"
+              text-color="white"
+              width="200"
+              @click="clickQusId(ans.onboarding)"
+            >
+              {{ ans.qusId }} .
+              {{ ans.answer }}
+            </v-chip>
+            <span v-if="ans.checkbox" class="star">*</span>
+            <span>
+            </span>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
     <div >
 
     </div>

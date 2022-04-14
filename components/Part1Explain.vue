@@ -23,6 +23,7 @@
             v-model="slide"
             cycle
             height="400"
+            interval="10000"
             hide-delimiter-background
           >
             <template #prev="{ on, attrs }">
