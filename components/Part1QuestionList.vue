@@ -81,8 +81,8 @@ export default {
     part1Qus: questions,
     onboarding: 0,
     // timer
-    min: localStorage.getItem("timer-min")? localStorage.getItem("timer-min") : 59,
-    sec: localStorage.getItem("timer-sec")? localStorage.getItem("timer-sec") : 0,
+    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 30,
+    sec: localStorage.getItem("timer")? JSON.parse(localStorage.getItem("timer")) % 60 : 0,
     timerObj: null,
     selected_answer: {},
     isComplete: false
@@ -104,8 +104,7 @@ export default {
     }
   },
   updated() {
-    localStorage.setItem("timer-min", this.min)
-    localStorage.setItem("timer-sec", this.sec)
+    localStorage.setItem("timer", JSON.stringify(this.min * 60 + this.sec))
     localStorage.setItem("onboarding", JSON.stringify(this.onboarding))
   },
   mounted() {
