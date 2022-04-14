@@ -107,7 +107,7 @@ export default {
     emit () {
       this.$emit('selectedAnswer', { 
         qusId: this.qus.id,
-        answer: this.selection,
+        answer: this.selection === undefined? '' : this.selection,
         onboarding: this.onboarding,
         checkbox: this.checkbox
       })
@@ -136,7 +136,7 @@ export default {
   min-width: 90%;
 }
 .checkbox {
-  transform: scale(1.8  );
+  transform: scale(1.8);
 }
 .v-input--selection-controls__ripple {
   display: none;
