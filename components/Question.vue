@@ -1,5 +1,15 @@
 <template>
   <v-card>
+    <v-row class="float-right">
+      <v-col>
+        <v-checkbox
+          v-model="checkbox"
+          on-icon="mdi-flag-triangle"
+          off-icon="mdi-flag-triangle"
+          class="checkbox"
+        />
+      </v-col>
+    </v-row>
     <v-row justify="center" align="center" class="fill-height pt-5">
       <v-card-text class="text-center" justify="center" align="center">
         <v-row v-if="'qus_text' in qus" class="fill-height">
@@ -9,12 +19,7 @@
             md="6"
             class="text-body-1 text-sm-h5"
           >
-            <div class="d-flex justify-space-around">
-              <v-checkbox
-                v-model="checkbox"
-              />
-              <span class="pr-4">{{ onboarding + 1 }}.</span> {{ qus.qus_text }}
-            </div>
+            <span class="pr-4">{{ onboarding + 1 }}.</span> {{ qus.qus_text }}
           </v-col>
           <v-col
             cols="12"
@@ -37,9 +42,6 @@
             md="6"
           >
             <div class="d-flex justify-start">
-              <v-checkbox
-                v-model="checkbox"
-              />
               <span class="pt-2 text-sm-h5">
                 {{ onboarding + 1 }}.
               </span>
@@ -132,5 +134,11 @@ export default {
 }
 .button {
   min-width: 90%;
+}
+.checkbox {
+  transform: scale(1.8  );
+}
+.v-input--selection-controls__ripple {
+  display: none;
 }
 </style>

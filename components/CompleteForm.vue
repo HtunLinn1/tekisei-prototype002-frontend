@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container class="text-center">
     <p v-if="answered_index === -1">
       終了してよろしいですか
     </p>
@@ -34,7 +34,6 @@ export default {
   mounted() {
     this.selected_answers = JSON.parse(localStorage.getItem("selected-answers"))
     this.answered_index = this.selected_answers.findIndex(ans => ans.answer === "")
-    console.log(this.answered_index)
   },
   methods: {
     clickQusId(onboarding) {
