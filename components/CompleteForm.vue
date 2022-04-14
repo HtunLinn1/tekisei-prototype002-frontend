@@ -22,7 +22,7 @@ export default {
   },
   methods: {
     clickQusId(onboarding) {
-      this.$nuxt.$emit('SET_ONBOARDING', onboarding)
+      this.$emit('jumpQus', onboarding)
     }
   },
 }

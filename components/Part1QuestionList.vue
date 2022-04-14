@@ -35,7 +35,7 @@
           v-for="qus in part1Qus"
           :key="qus.id"
         >
-          <CompleteForm v-if="isComplete" />
+          <CompleteForm v-if="isComplete" @jumpQus="jumpQus($event)" />
           <Question v-else :qus="qus" :onboarding="onboarding" @selectedAnswer="selectedAnswer($event)" />
         </v-window-item>
       </v-window>
@@ -43,23 +43,31 @@
       <v-card-actions class="justify-space-between">
         <v-btn
           text
+          :disabled="isComplete"
           @click="prev"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
         <v-btn
-          v-if="onboarding + 1 < part1Qus.length"
+          v-if="onboarding + 1 < part1Qus.length && !isComplete"
           text
           @click="next"
         >
           <v-icon>mdi-chevron-right</v-icon>
         </v-btn>
         <v-btn
-          v-else
+          v-if="onboarding + 1 === part1Qus.length && !isComplete"
           color="primary"
           @click="next"
         >
           完了
+        </v-btn>
+        <v-btn
+          v-if="isComplete"
+          color="primary"
+          @click="sendAns"
+        >
+          送信
         </v-btn>
       </v-card-actions>
     </v-card>
@@ -73,8 +81,8 @@ export default {
     part1Qus: questions,
     onboarding: 0,
     // timer
-    min: localStorage.getItem("timer-min")? localStorage.getItem("timer-min") : 60,
-    sec: localStorage.getItem("timer-sec")? localStorage.getItem("timer-sec") : 20,
+    min: localStorage.getItem("timer-min")? localStorage.getItem("timer-min") : 59,
+    sec: localStorage.getItem("timer-sec")? localStorage.getItem("timer-sec") : 0,
     timerObj: null,
     selected_answer: {},
     isComplete: false
@@ -95,27 +103,22 @@ export default {
       return timeStrings[0] + ":" + timeStrings[1]
     }
   },
-  beforeDestroy () {
-    this.$nuxt.$off('SET_ONBOARDING')
-  },
   updated() {
     localStorage.setItem("timer-min", this.min)
     localStorage.setItem("timer-sec", this.sec)
+    localStorage.setItem("onboarding", JSON.stringify(this.onboarding))
   },
   mounted() {
-    // bus event
-    this.$nuxt.$on('SET_ONBOARDING', (data) => {
-      this.isComplete = false
-      this.onboarding = data
-    })
-    // time start
-    this.start()
     // selected answers
     localStorage.setItem("selected-answers",
       localStorage.getItem("selected-answers") !== null? 
         localStorage.getItem("selected-answers") : 
         JSON.stringify([])
     )
+    // time start
+    this.start()
+    // onboarding
+    this.onboarding = JSON.parse(localStorage.getItem("onboarding"))
   },
   methods: {
     // timer
@@ -135,7 +138,7 @@ export default {
     },
     complete() {
       clearInterval(this.timerObj)
-      this.$emit('testFinish', { part: 'part1' })
+      this.sendAns()
     },
     selectedAnswer (answer) {
       this.selected_answer = answer
@@ -169,6 +172,16 @@ export default {
         answers[index].checkbox = this.selected_answer.checkbox
       }
       localStorage.setItem("selected-answers", JSON.stringify(answers))
+    },
+    jumpQus (onboarding) {
+      this.isComplete = false
+      this.onboarding = onboarding
+    },
+    sendAns () {
+      const answers = JSON.parse(localStorage.getItem("selected-answers"))
+      console.log(answers)
+      this.isComplete = false
+      this.$emit('testFinish', { part: 'part1' })
     }
   },
 }

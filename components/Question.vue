@@ -92,7 +92,14 @@ export default {
     this.emit()
   },
   mounted() {
+    // selected answers
+    localStorage.setItem("selected-answers",
+      localStorage.getItem("selected-answers") !== null? 
+        localStorage.getItem("selected-answers") : 
+        JSON.stringify([])
+    )
     this.emit()
+    this.getAnswer()
   },
   methods: {
     emit () {
@@ -105,9 +112,9 @@ export default {
     },
     getAnswer () {
       const answers = JSON.parse(localStorage.getItem("selected-answers"))
-      const index = answers.findIndex(ans => ans.qusId === this.qus.qusId)
+      const index = answers.findIndex(ans => ans.qusId === this.qus.id)
       if (index !== -1) {
-        this.radioBtnValue = answers[index].answer
+        this.selection = answers[index].answer
         this.checkbox = answers[index].checkbox
       }
     }
