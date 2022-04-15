@@ -1,6 +1,6 @@
 <template>
   <v-card>
-    <v-row class="float-right">
+    <!-- <v-row class="float-right">
       <v-col >
         <v-checkbox
           v-model="checkbox"
@@ -9,7 +9,7 @@
           class="checkbox"
         />
       </v-col>
-    </v-row>
+    </v-row> -->
     <v-row justify="center" align="center" class="fill-height pt-5">
       <v-card-text class="text-center" justify="center" align="center">
         <v-row v-if="'qus_text' in qus" class="fill-height">
@@ -17,18 +17,17 @@
             cols="12"
             sm="6"
             md="6"
-            class="text-body-1 text-sm-h5"
+            class="text-h6"
           >
-            <span class="pr-4">{{ onboarding + 1 }}.</span> {{ qus.qus_text }}
+            {{ qus.qus_text }}
           </v-col>
           <v-col
             cols="12"
             sm="6"
             md="6"
-            class="text-body-1 text-sm-h5"
           >
-            <v-row class="text-body-1 text-sm-h5 ml-8">
-              <v-col v-for="(ans, i) in qus.ans" :key="i">
+            <v-row>
+              <v-col v-for="(ans, i) in qus.ans" :key="i" class="text-h6">
                 ({{ i + 1 }})&nbsp;<br>
                 {{ ans }}
               </v-col>
@@ -42,9 +41,6 @@
             md="6"
           >
             <div class="d-flex justify-start">
-              <span class="pt-2 text-sm-h5">
-                {{ onboarding + 1 }}.
-              </span>
               <v-img :src="require(`~/assets/images/${qus.url_qus}`)" />
             </div>
           </v-col>

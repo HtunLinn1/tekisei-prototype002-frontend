@@ -42,30 +42,26 @@
 
       <v-card-actions class="justify-space-between">
         <v-btn
-          :disabled="isComplete || onboarding === 0"
+          v-if="!isComplete"
+          :disabled="onboarding === 0"
           @click="prev"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
+        <div v-if="isComplete">
+        </div>
         <v-btn
-          v-if="onboarding + 1 < part1Qus.length && !isComplete"
+          v-if="onboarding + 1 <= part1Qus.length && !isComplete"
           @click="next"
         >
           <v-icon>mdi-chevron-right</v-icon>
-        </v-btn>
-        <v-btn
-          v-if="onboarding + 1 === part1Qus.length && !isComplete"
-          color="primary"
-          @click="next"
-        >
-          完了
         </v-btn>
         <v-btn
           v-if="isComplete"
           color="primary"
           @click="sendAns"
         >
-          送信
+          完了
         </v-btn>
       </v-card-actions>
     </v-card>
