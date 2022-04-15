@@ -162,8 +162,6 @@ export default {
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
         ? this.part1Qus.length
         : this.onboarding + 1;
-      // call method of question
-      this.$nuxt.$emit('QUESTION_EMIT', 'emit');
       // set localstorage
       this.setLocalStorage()
     },
