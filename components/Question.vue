@@ -1,7 +1,7 @@
 <template>
   <v-card>
     <v-row class="float-right">
-      <v-col>
+      <v-col >
         <v-checkbox
           v-model="checkbox"
           on-icon="mdi-flag-triangle"
@@ -136,7 +136,7 @@ export default {
   min-width: 90%;
 }
 .checkbox {
-  transform: scale(1.2);
+  transform: scale(1.6);
 }
 .v-input--selection-controls__ripple {
   display: none;

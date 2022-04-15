@@ -18,7 +18,7 @@
               width="200"
               @click="clickQusId(ans.onboarding)"
             >
-              {{ ans.qusId }} .
+              ({{ ans.qusId }})
               {{ ans.answer }}
             </v-chip>
             <span v-if="ans.checkbox" class="star">*</span>
