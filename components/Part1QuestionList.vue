@@ -43,12 +43,20 @@
       <v-card-actions v-if="!isComplete" class="justify-space-between">
         <v-btn
           :disabled="onboarding === 0"
+          color="primary"
           @click="prev"
         >
           <v-icon>mdi-chevron-left</v-icon>
         </v-btn>
+        <v-checkbox
+          v-model="checkbox"
+          on-icon="mdi-flag-triangle"
+          off-icon="mdi-flag-triangle"
+          class="checkbox"
+        />
         <v-btn
           v-if="onboarding + 1 <= part1Qus.length"
+          color="primary"
           @click="next"
         >
           <v-icon>mdi-chevron-right</v-icon>
@@ -79,7 +87,9 @@ export default {
     sec: localStorage.getItem("timer")? JSON.parse(localStorage.getItem("timer")) % 60 : 0,
     timerObj: null,
     selected_answer: {},
-    isComplete: false
+    isComplete: false,
+    // checkbox flag
+    checkbox: false
   }),
   computed: {
     // timer
@@ -97,6 +107,11 @@ export default {
       return timeStrings[0] + ":" + timeStrings[1]
     }
   },
+  // watch: { 
+  //   onboarding() {
+  //     this.setCheckbox()
+  //   }
+  // },
   updated() {
     localStorage.setItem("timer", JSON.stringify(this.min * 60 + this.sec))
     localStorage.setItem("onboarding", JSON.stringify(this.onboarding))
@@ -144,11 +159,12 @@ export default {
         this.isComplete = true
         localStorage.setItem('is-complete', JSON.stringify(this.isComplete))
       }
-
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
         ? this.part1Qus.length
         : this.onboarding + 1;
-
+      // call method of question
+      this.$nuxt.$emit('QUESTION_EMIT', 'emit');
+      // set localstorage
       this.setLocalStorage()
     },
     prev() {
@@ -158,14 +174,19 @@ export default {
       this.isComplete = false
     },
     setLocalStorage () {
+      // insert check box
       const answers = JSON.parse(localStorage.getItem("selected-answers"))
+      // console.log(this.selected_answer)
       const index = answers.findIndex(ans => ans.qusId === this.selected_answer.qusId)
+      // console.log('local storage index ', index)
+      // console.log('checkbox ', this.checkbox)
       if (index === -1) {
+        // this.selected_answer.checkbox = this.checkbox
         answers.push(this.selected_answer)
       } else {
         answers[index].qusId = this.selected_answer.qusId
         answers[index].answer = this.selected_answer.answer
-        answers[index].checkbox = this.selected_answer.checkbox
+        // answers[index].checkbox = this.checkbox
       }
       localStorage.setItem("selected-answers", JSON.stringify(answers))
     },
@@ -189,7 +210,16 @@ export default {
       else {
         console.log("--no");
       }
-    }
+    },
+    // setCheckbox () {
+    //   const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
+    //   const index = selectedAnswers.findIndex(ans => ans.onboarding === this.onboarding)
+    //   if ( index === -1) {
+    //     this.checkbox = false
+    //   } else {
+    //     this.checkbox = selectedAnswers[index].checkbox
+    //   }
+    // }
   },
 }
 </script>
@@ -210,5 +240,11 @@ export default {
     position: absolute;
     top: -30px;
     right: 0;
+  }
+  .checkbox {
+    transform: scale(1.4);
+  }
+  .v-input--selection-controls__ripple {
+    display: none;
   }
 </style>

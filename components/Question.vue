@@ -1,15 +1,5 @@
 <template>
   <v-card>
-    <!-- <v-row class="float-right">
-      <v-col >
-        <v-checkbox
-          v-model="checkbox"
-          on-icon="mdi-flag-triangle"
-          off-icon="mdi-flag-triangle"
-          class="checkbox"
-        />
-      </v-col>
-    </v-row> -->
     <v-row justify="center" align="center" class="fill-height pt-5">
       <v-card-text class="text-center" justify="center" align="center">
         <v-row v-if="'qus_text' in qus" class="fill-height">
@@ -83,7 +73,7 @@ export default {
   data() {
     return {
       selection: '',
-      checkbox: false,
+      onborading: this.onboarding
     }
   },
   updated() {
@@ -96,16 +86,15 @@ export default {
         localStorage.getItem("selected-answers") : 
         JSON.stringify([])
     )
-    this.emit()
     this.getAnswer()
+    this.emit()
   },
   methods: {
-    emit () {
+    emit() {
       this.$emit('selectedAnswer', { 
         qusId: this.qus.id,
         answer: this.selection === undefined? '' : this.selection,
-        onboarding: this.onboarding,
-        checkbox: this.checkbox
+        onboarding: this.onboarding
       })
     },
     getAnswer () {
@@ -113,7 +102,6 @@ export default {
       const index = answers.findIndex(ans => ans.qusId === this.qus.id)
       if (index !== -1) {
         this.selection = answers[index].answer
-        this.checkbox = answers[index].checkbox
       }
     }
   },
@@ -130,11 +118,5 @@ export default {
 }
 .button {
   min-width: 90%;
-}
-.checkbox {
-  transform: scale(1.6);
-}
-.v-input--selection-controls__ripple {
-  display: none;
 }
 </style>

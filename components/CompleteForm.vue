@@ -9,7 +9,7 @@
     </p>
     <v-container>
       <v-row>
-        <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4">
+        <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4" class="text-center">
           <div class="d-flex flex-row mb-6">
             <v-chip
               class=" chip"
