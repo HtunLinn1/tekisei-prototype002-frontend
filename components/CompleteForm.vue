@@ -46,9 +46,11 @@ export default {
   mounted() {
     this.selected_answers = JSON.parse(localStorage.getItem("selected-answers"))
     this.answered_index = this.selected_answers.findIndex(ans => ans.answer === "")
+    localStorage.removeItem("jump-question")
   },
   methods: {
     clickQusId(onboarding) {
+      localStorage.setItem("jump-question", JSON.stringify(true))
       this.$emit('jumpQus', onboarding)
     }
   },

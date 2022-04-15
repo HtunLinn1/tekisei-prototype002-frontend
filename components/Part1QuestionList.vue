@@ -55,6 +55,13 @@
           class="checkbox"
         />
         <v-btn
+          v-if="isJump"
+          color="primary"
+          @click="jumpComplete"
+        >
+          完了
+        </v-btn>
+        <v-btn
           v-if="onboarding + 1 <= part1Qus.length"
           color="primary"
           @click="next"
@@ -89,7 +96,8 @@ export default {
     selected_answer: {},
     isComplete: false,
     // checkbox flag
-    checkbox: false
+    checkbox: false,
+    isJump: false
   }),
   computed: {
     // timer
@@ -117,6 +125,8 @@ export default {
     localStorage.setItem("onboarding", JSON.stringify(this.onboarding))
   },
   mounted() {
+    // is jump
+    this.isJump = JSON.parse(localStorage.getItem("jump-question"))
     // selected answers
     localStorage.setItem("selected-answers",
       localStorage.getItem("selected-answers") !== null? 
@@ -152,6 +162,8 @@ export default {
     },
     selectedAnswer (answer) {
       this.selected_answer = answer
+      // set localstorage
+      this.setLocalStorage()
     },
     // slide
     next() {
@@ -162,8 +174,6 @@ export default {
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
         ? this.part1Qus.length
         : this.onboarding + 1;
-      // set localstorage
-      this.setLocalStorage()
     },
     prev() {
       this.onboarding = this.onboarding - 1 < 0
@@ -218,6 +228,10 @@ export default {
     //     this.checkbox = selectedAnswers[index].checkbox
     //   }
     // }
+    jumpComplete () {
+      this.isComplete = true
+      localStorage.setItem('is-complete', JSON.stringify(this.isComplete))
+    }
   },
 }
 </script>
