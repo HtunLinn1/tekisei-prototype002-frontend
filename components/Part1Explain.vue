@@ -23,7 +23,7 @@
             v-model="slide"
             cycle
             height="400"
-            interval="10000"
+            interval="30000"
             hide-delimiter-background
           >
             <template #prev="{ on, attrs }">
@@ -42,25 +42,16 @@
             </template>
             <template #next="{ on, attrs }">
               <v-btn
-                v-if="slide + 1 < questionList.length"
                 color="blue"
                 icon
                 large
+                :disabled="slide + 1 === questionList.length"
                 v-bind="attrs"
                 v-on="on"
               >
                 <v-icon>
                   mdi-chevron-right
                 </v-icon>
-              </v-btn>
-              <v-btn
-                v-if="slide + 1 === questionList.length"
-                color="primary"
-                icon
-                large
-                @click="startTest"
-              >
-                <span style="color: blue;">開始</span>
               </v-btn>
             </template>
             <v-carousel-item
@@ -70,7 +61,7 @@
               <v-sheet
                 height="100%"
               >
-                <v-row>
+                <v-row v-if="'question_description' in qus">
                   <v-col class="text-body1">
                     {{ i + 1 }}.{{ qus.question_description }}
                   </v-col>
@@ -98,7 +89,7 @@
                     </v-row>
                   </v-col>
                 </v-row>
-                <v-row v-else>
+                <v-row v-if="'question_img' in qus">
                   <v-col
                     cols="12"
                     sm="6"
@@ -112,6 +103,26 @@
                     md="6"
                   >
                     <v-img :src="require(`~/assets/images/${qus.answer_img}`)" />
+                  </v-col>
+                </v-row>
+                <v-row v-if="'start_btn' in qus">
+                  <v-col>
+                    <v-row class="text-body2" style="white-space: pre-line; color: red;">
+                      <v-col>
+                      {{ qus.start_description }}
+                      </v-col>
+                    </v-row>
+                    <v-row>
+                      <v-col>
+                      <v-btn
+                        color="primary"
+                        large
+                        @click="startTest"
+                      >
+                        開始
+                      </v-btn>
+                      </v-col>
+                    </v-row>
                   </v-col>
                 </v-row>
                 <v-row>

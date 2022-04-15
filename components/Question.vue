@@ -87,7 +87,7 @@ export default {
   data() {
     return {
       selection: '',
-      checkbox: false
+      checkbox: false,
     }
   },
   updated() {

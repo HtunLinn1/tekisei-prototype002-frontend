@@ -22,5 +22,10 @@
     "question_description": "四つの図が一定の順序で並んでいます。次にくる図形を5択から選ぶ問題です。\nでは、次の例題を見てください。",
     "answer_img": "explain1_ans.png",
     "answer_description": "例題では斜線を引いた四角形が時計回りに順序移動しています。したがって、次はまた右上となり、解答は（2）となります。"
+  },
+  {
+    "answer_description": "",
+    "start_btn": "start",
+    "start_description": "※適性検査実施中は、ブラウザを終了しないでください。\nまた、ブラウザのリロードや戻る機能は使用しないでください。"
   }
 ]
