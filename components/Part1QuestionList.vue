@@ -53,6 +53,7 @@
           on-icon="mdi-flag-triangle"
           off-icon="mdi-flag-triangle"
           class="checkbox"
+          @click="clickCheck"
         />
         <v-btn
           v-if="isJump"
@@ -115,18 +116,16 @@ export default {
       return timeStrings[0] + ":" + timeStrings[1]
     }
   },
-  // watch: { 
-  //   onboarding() {
-  //     this.setCheckbox()
-  //   }
-  // },
+  watch: { 
+    onboarding() {
+      this.setCheckbox()
+    }
+  },
   updated() {
     localStorage.setItem("timer", JSON.stringify(this.min * 60 + this.sec))
     localStorage.setItem("onboarding", JSON.stringify(this.onboarding))
   },
   mounted() {
-    // is jump
-    this.isJump = JSON.parse(localStorage.getItem("jump-question"))
     // selected answers
     localStorage.setItem("selected-answers",
       localStorage.getItem("selected-answers") !== null? 
@@ -184,17 +183,12 @@ export default {
     setLocalStorage () {
       // insert check box
       const answers = JSON.parse(localStorage.getItem("selected-answers"))
-      // console.log(this.selected_answer)
       const index = answers.findIndex(ans => ans.qusId === this.selected_answer.qusId)
-      // console.log('local storage index ', index)
-      // console.log('checkbox ', this.checkbox)
       if (index === -1) {
-        // this.selected_answer.checkbox = this.checkbox
         answers.push(this.selected_answer)
       } else {
         answers[index].qusId = this.selected_answer.qusId
         answers[index].answer = this.selected_answer.answer
-        // answers[index].checkbox = this.checkbox
       }
       localStorage.setItem("selected-answers", JSON.stringify(answers))
     },
@@ -202,6 +196,7 @@ export default {
       this.isComplete = false
       localStorage.setItem("is-complete", this.isComplete)
       this.onboarding = onboarding
+      this.isJump = JSON.parse(localStorage.getItem("jump-question"))
     },
     async sendAns () {
       if (await this.$refs.confirm.open("Finish", "Are you sure want to finish?", '', { color: "blue" })) {
@@ -219,18 +214,26 @@ export default {
         console.log("--no");
       }
     },
-    // setCheckbox () {
-    //   const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
-    //   const index = selectedAnswers.findIndex(ans => ans.onboarding === this.onboarding)
-    //   if ( index === -1) {
-    //     this.checkbox = false
-    //   } else {
-    //     this.checkbox = selectedAnswers[index].checkbox
-    //   }
-    // }
+    setCheckbox () {
+      const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
+      const index = selectedAnswers.findIndex(ans => ans.onboarding === this.onboarding)
+      if ( index !== -1) {
+        this.checkbox = selectedAnswers[index].checkbox
+      } else {
+        this.checkbox = false
+      }
+    },
     jumpComplete () {
       this.isComplete = true
       localStorage.setItem('is-complete', JSON.stringify(this.isComplete))
+    },
+    clickCheck () {
+      const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
+      const index = selectedAnswers.findIndex(ans => ans.onboarding === this.onboarding)
+      if ( index !== -1) {
+        selectedAnswers[index].checkbox = this.checkbox
+      }
+      localStorage.setItem("selected-answers", JSON.stringify(selectedAnswers))
     }
   },
 }
