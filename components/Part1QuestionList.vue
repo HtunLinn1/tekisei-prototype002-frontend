@@ -199,7 +199,15 @@ export default {
       this.isJump = JSON.parse(localStorage.getItem("jump-question"))
     },
     async sendAns () {
-      if (await this.$refs.confirm.open("Finish", "Are you sure want to finish?", '', { color: "blue" })) {
+      const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
+      const ansIndex = selectedAnswers.findIndex(ans => ans.answer === "")
+      const checkboxIndex = selectedAnswers.findIndex(ans => ans.checkbox === true)
+      const message = ansIndex === -1?
+        checkboxIndex === -1? 
+          '終了してよろしいですか' :
+          'チャックした回答があります。本当に完了してよろしいでしょうか。' :
+        '未回答ががあります。本当に完了してよろしいでしょうか。'
+      if (await this.$refs.confirm.open("完了", message, '', { color: "blue" })) {
         console.log("--yes");
         const answers = JSON.parse(localStorage.getItem("selected-answers"))
         console.log(answers)

@@ -11,6 +11,13 @@
       <v-row>
         <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4" class="text-center">
           <div class="d-flex flex-row mb-6">
+          <v-badge
+            v-if="ans.checkbox"
+            bordered
+            color="error"
+            icon="mdi-flag-triangle"
+            overlap
+          >
             <v-chip
               class=" chip"
               :color="ans.answer === ''? '#E9967A' : '#82E0AA'"
@@ -21,7 +28,18 @@
               ({{ ans.qusId }})
               {{ ans.answer }}
             </v-chip>
-            <span v-if="ans.checkbox" class="star">*</span>
+          </v-badge>
+          <v-chip
+            v-else
+            class=" chip"
+            :color="ans.answer === ''? '#E9967A' : '#82E0AA'"
+            text-color="white"
+            width="200"
+            @click="clickQusId(ans.onboarding)"
+          >
+            ({{ ans.qusId }})
+            {{ ans.answer }}
+          </v-chip>
             <span>
             </span>
           </div>
