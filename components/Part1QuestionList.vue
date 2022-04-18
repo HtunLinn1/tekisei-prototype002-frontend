@@ -86,9 +86,11 @@
 
 <script>
 import questions from '@/assets/data/part1QuestionList.json'
+import answersJson from '@/assets/data/part1AnswerList.json'
 export default {
   data: () => ({
     part1Qus: questions,
+    part1Answers: answersJson,
     onboarding: 0,
     // timer
     min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 25,
@@ -220,14 +222,29 @@ export default {
       }
     },
     testFinish () {
-      const answers = JSON.parse(localStorage.getItem("selected-answers"))
-      console.log(answers)
+      // calculate point
+      this.calculatePoint()
       this.isComplete = false
       localStorage.removeItem("is-complete")
       localStorage.removeItem("selected-answers")
       localStorage.removeItem("onboarding")
       localStorage.removeItem("timer")
       this.$emit('testFinish', { part: 'part1' })
+    },
+    calculatePoint () {
+      const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
+      let gainPoints = 0
+      let lostPoints = 0
+      for (const answer of selectedAnswers) {
+        const index = this.part1Answers.findIndex(ans => ans.qusId === answer.qusId)
+        if (index !== -1 && this.part1Answers[index].answer === answer.answer) {
+          gainPoints = gainPoints + 1
+        } else if (index !== -1 && answer.answer !== "" && this.part1Answers[index].answer !== answer.answer) {
+          lostPoints = lostPoints + 1
+        }
+      }
+      const part1Result = gainPoints - (lostPoints * 0.25 )
+      localStorage.setItem("results", JSON.stringify({ part1_result: part1Result, part2_result: '', it_result: '' }))
     },
     setCheckbox () {
       const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
