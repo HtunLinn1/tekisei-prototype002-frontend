@@ -55,7 +55,7 @@ export default {
     testFinish(status) {
       if (status.part === 'part1') {
         this.partOneQuestionList = false
-        localStorage.setItem("user-click-part", '')
+        localStorage.removeItem("user-click-part")
         this.isFinishPartOne = true
         localStorage.setItem("isfinish-part-one", JSON.stringify(this.isFinishPartOne))
       }

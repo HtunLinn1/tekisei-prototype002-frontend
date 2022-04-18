@@ -74,7 +74,7 @@
         <v-btn
           v-if="isComplete"
           color="primary"
-          @click="sendAns"
+          @click="sendAns('send-click')"
         >
           完了
         </v-btn>
@@ -91,7 +91,7 @@ export default {
     part1Qus: questions,
     onboarding: 0,
     // timer
-    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 25,
+    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 2,
     sec: localStorage.getItem("timer")? JSON.parse(localStorage.getItem("timer")) % 60 : 0,
     timerObj: null,
     selected_answer: {},
@@ -157,7 +157,7 @@ export default {
     },
     complete() {
       clearInterval(this.timerObj)
-      this.sendAns()
+      this.sendAns('timeout')
     },
     selectedAnswer (answer) {
       this.selected_answer = answer
@@ -198,7 +198,7 @@ export default {
       this.onboarding = onboarding
       this.isJump = JSON.parse(localStorage.getItem("jump-question"))
     },
-    async sendAns () {
+    async sendAns (status) {
       const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
       const ansIndex = selectedAnswers.findIndex(ans => ans.answer === "")
       const checkboxIndex = selectedAnswers.findIndex(ans => ans.checkbox === true)
@@ -207,20 +207,27 @@ export default {
           '終了してよろしいですか' :
           'チャックした回答があります。本当に完了してよろしいでしょうか。' :
         '未回答ががあります。本当に完了してよろしいでしょうか。'
-      if (await this.$refs.confirm.open("完了", message, '', { color: "blue" })) {
-        console.log("--yes");
-        const answers = JSON.parse(localStorage.getItem("selected-answers"))
-        console.log(answers)
-        this.isComplete = false
-        localStorage.removeItem("is-complete")
-        localStorage.removeItem("selected-answers")
-        localStorage.removeItem("onboarding")
-        localStorage.removeItem("timer")
-        this.$emit('testFinish', { part: 'part1' })
+      if (status === 'send-click') {
+        if (await this.$refs.confirm.open("完了", message, '', { color: "blue" })) {
+          console.log("--yes");
+          this.testFinish()
+        }
+        else {
+          console.log("--no");
+        }
+      } else if (status === 'timeout') {
+        this.testFinish()
       }
-      else {
-        console.log("--no");
-      }
+    },
+    testFinish () {
+      const answers = JSON.parse(localStorage.getItem("selected-answers"))
+      console.log(answers)
+      this.isComplete = false
+      localStorage.removeItem("is-complete")
+      localStorage.removeItem("selected-answers")
+      localStorage.removeItem("onboarding")
+      localStorage.removeItem("timer")
+      this.$emit('testFinish', { part: 'part1' })
     },
     setCheckbox () {
       const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
