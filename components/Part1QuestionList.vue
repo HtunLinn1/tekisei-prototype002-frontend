@@ -85,7 +85,7 @@
 </template>
 
 <script>
-import questions from '@/assets/data/questionList.json'
+import questions from '@/assets/data/part1QuestionList.json'
 export default {
   data: () => ({
     part1Qus: questions,
