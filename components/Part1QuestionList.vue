@@ -2,8 +2,19 @@
   <v-container class="question">
     <div class="timer-absolute">
       <div class="timer">
-        <div class="time">
-          {{ formatTime }}
+        <div :class="parseInt(formatTime.min) < 1? 'less-time' : 'time'">
+          残り時間：<span v-if="formatTime.min.length < 2">
+                    {{ "0" + formatTime.min }}
+                   </span>
+                   <span v-else>
+                    {{ formatTime.min }}
+                   </span> : 
+                   <span v-if="formatTime.sec.length < 2">
+                    {{ "0" + formatTime.sec }}
+                   </span>
+                   <span v-else>
+                    {{ formatTime.sec }}
+                   </span>
         </div>
       </div>
     </div>
@@ -93,7 +104,7 @@ export default {
     part1Answers: answersJson,
     onboarding: 0,
     // timer
-    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 25,
+    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 2,
     sec: localStorage.getItem("timer")? JSON.parse(localStorage.getItem("timer")) % 60 : 0,
     timerObj: null,
     selected_answer: {},
@@ -105,17 +116,10 @@ export default {
   computed: {
     // timer
     formatTime() {
-      const timeStrings = [
-        this.min.toString(),
-        this.sec.toString()
-      ].map(function(str) {
-        if (str.length < 2) {
-          return "0" + str
-        } else {
-          return str
-        }
-      })
-      return timeStrings[0] + ":" + timeStrings[1]
+      return {
+        min: this.min.toString(),
+        sec: this.sec.toString()
+      }
     }
   },
   watch: { 
@@ -208,7 +212,7 @@ export default {
         checkboxIndex === -1? 
           '終了してよろしいですか' :
           'チャックした回答があります。本当に完了してよろしいでしょうか。' :
-        '未回答ががあります。本当に完了してよろしいでしょうか。'
+        '未回答があります。本当に完了してよろしいでしょうか。'
       if (status === 'send-click') {
         if (await this.$refs.confirm.open("完了", message, '', { color: "blue" })) {
           console.log("--yes");
@@ -278,7 +282,7 @@ export default {
     justify-content: center;
   }
   .time {
-    font-size: 30px;
+    font-size: 25px;
   }
   .question {
     position: relative;
@@ -293,5 +297,9 @@ export default {
   }
   .v-input--selection-controls__ripple {
     display: none;
+  }
+  .less-time {
+    color: red;
+    font-size: 25px;
   }
 </style>
