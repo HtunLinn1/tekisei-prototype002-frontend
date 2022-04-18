@@ -41,7 +41,7 @@
       <div v-if="!isComplete" class="text-right">
         {{ onboarding + 1 }} / {{ part1Qus.length }}
       </div>
-      <v-window v-model="onboarding">
+      <v-window v-model="onboarding" :touch="{ left : next, right: prev }">
         <v-window-item
           v-for="qus in part1Qus"
           :key="qus.id"

@@ -4,7 +4,7 @@ export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - proto-frontend',
-    title: 'proto-frontend',
+    title: 'CM.適性検査-管理者画面・検査結果確認',
     htmlAttrs: {
       lang: 'en',
     },
