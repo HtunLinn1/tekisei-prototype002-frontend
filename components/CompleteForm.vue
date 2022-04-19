@@ -19,7 +19,7 @@
             overlap
           >
             <v-chip
-              class=" chip"
+              class="chip"
               :color="ans.answer === ''? '#E9967A' : '#82E0AA'"
               text-color="white"
               width="200"
@@ -31,7 +31,7 @@
           </v-badge>
           <v-chip
             v-else
-            class=" chip"
+            class="chip"
             :color="ans.answer === ''? '#E9967A' : '#82E0AA'"
             text-color="white"
             width="200"

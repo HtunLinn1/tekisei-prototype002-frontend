@@ -104,7 +104,7 @@ export default {
     part1Answers: answersJson,
     onboarding: 0,
     // timer
-    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 2,
+    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 25,
     sec: localStorage.getItem("timer")? JSON.parse(localStorage.getItem("timer")) % 60 : 0,
     timerObj: null,
     selected_answer: {},
