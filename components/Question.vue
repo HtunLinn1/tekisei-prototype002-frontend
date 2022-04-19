@@ -8,6 +8,7 @@
             sm="6"
             md="6"
             class="text-h6"
+            style="word-spacing: 12px;"
           >
             {{ qus.qus_text }}
           </v-col>
@@ -33,7 +34,7 @@
             <div class="d-flex justify-start">
               <v-img
                 contain
-                max-height="85"
+                max-height="120"
                 :src="require(`~/assets/images/${qus.url_qus}`)"
               />
             </div>
@@ -46,7 +47,7 @@
             <v-img :src="require(`~/assets/images/${qus.url_ans}`)" />
           </v-col>
         </v-row>
-        <v-chip-group v-model="selection" active-class="primary--text " column class="answer-btn">
+        <v-chip-group v-model="selection" active-class="success" column class="answer-btn">
           <v-chip
             v-for="(ans, i) in qus.answers"
             :key="i"

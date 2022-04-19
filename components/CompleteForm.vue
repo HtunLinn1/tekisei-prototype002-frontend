@@ -25,8 +25,8 @@
               width="200"
               @click="clickQusId(ans.onboarding)"
             >
-              ({{ ans.qusId }})
-              {{ ans.answer }}
+              {{ ans.qusId }}.
+              ({{ ans.answer }})
             </v-chip>
           </v-badge>
           <v-chip
@@ -37,8 +37,8 @@
             width="200"
             @click="clickQusId(ans.onboarding)"
           >
-            ({{ ans.qusId }})
-            {{ ans.answer }}
+            {{ ans.qusId }}.
+            ({{ ans.answer }})
           </v-chip>
             <span>
             </span>
@@ -79,7 +79,9 @@ export default {
   .star {
     color: red;
   }
-  .chip {
-    width: 120px;
+  @media only screen and (min-width: 600px) {
+    .chip {
+      width: 120px;
+    }
   }
 </style>
