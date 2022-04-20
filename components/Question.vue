@@ -126,7 +126,7 @@ export default {
 }
 @media only screen and (min-width: 712px) {
   .image-left-size {
-    width: 410px;
+    width: 400px;
   }
   .image-right-size {
     width: 498px;
