@@ -1,5 +1,5 @@
 <template>
-  <v-container class="question">
+  <v-container class="question" fluid-width>
     <div class="timer-absolute">
       <div class="timer">
         <div :class="parseInt(formatTime.min) < 1? 'less-time' : 'time'">
@@ -38,19 +38,23 @@
           ④各列の左側の四つの図形は一定の法則に基づいて並んでいます。次にくる図形を５択より選択してください。（１５問）
         </v-card-title>
       </v-card>
-      <div v-if="!isComplete" class="text-right">
-        {{ onboarding + 1 }} / {{ part1Qus.length }}
-      </div>
+      <span v-if="!isComplete" class="d-flex justify-space-between">
+        <div class="font-weight-medium">
+          ({{ qusCount }})
+        </div>
+        <div class="font-weight-medium">
+          {{ onboarding + 1 }} / {{ part1Qus.length }}
+        </div>
+      </span>
       <v-window v-model="onboarding" :touch="{ left : next, right: prev }">
         <v-window-item
           v-for="qus in part1Qus"
           :key="qus.id"
         >
-          <CompleteForm v-if="isComplete" @jumpQus="jumpQus($event)" />
-          <Question v-else :qus="qus" :onboarding="onboarding" @selectedAnswer="selectedAnswer($event)" />
+          <Question v-if="!isComplete" :qus="qus" :onboarding="onboarding" @selectedAnswer="selectedAnswer($event)" />
         </v-window-item>
       </v-window>
-
+      <CompleteForm v-if="isComplete" @jumpQus="jumpQus($event)" />
       <v-card-actions v-if="!isComplete" class="justify-space-between">
         <v-btn
           :disabled="onboarding === 0"
@@ -105,14 +109,16 @@ export default {
     part1Answers: answersJson,
     onboarding: 0,
     // timer
-    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 25,
+    min: localStorage.getItem("timer")? Math.floor(JSON.parse(localStorage.getItem("timer")) / 60) : 55,
     sec: localStorage.getItem("timer")? JSON.parse(localStorage.getItem("timer")) % 60 : 0,
     timerObj: null,
     selected_answer: {},
     isComplete: false,
     // checkbox flag
     checkbox: false,
-    isJump: false
+    isJump: false,
+    qusCount: 1,
+    qusType: 1
   }),
   computed: {
     // timer
@@ -180,6 +186,8 @@ export default {
       this.onboarding = this.onboarding + 1 === this.part1Qus.length
         ? this.part1Qus.length
         : this.onboarding + 1;
+
+      this.setNextQusCount()
     },
     prev() {
       this.onboarding = this.onboarding - 1 < 0
@@ -192,6 +200,8 @@ export default {
       const answers = JSON.parse(localStorage.getItem("selected-answers"))
       const index = answers.findIndex(ans => ans.qusId === this.selected_answer.qusId)
       if (index === -1) {
+        this.selected_answer.qusCount = this.qusCount
+        this.selected_answer.qusType = this.qusType
         answers.push(this.selected_answer)
       } else {
         answers[index].qusId = this.selected_answer.qusId
@@ -256,6 +266,7 @@ export default {
       const index = selectedAnswers.findIndex(ans => ans.onboarding === this.onboarding)
       if ( index !== -1) {
         this.checkbox = selectedAnswers[index].checkbox
+        this.qusCount = selectedAnswers[index].qusCount
       } else {
         this.checkbox = false
       }
@@ -271,6 +282,28 @@ export default {
         selectedAnswers[index].checkbox = this.checkbox
       }
       localStorage.setItem("selected-answers", JSON.stringify(selectedAnswers))
+    },
+    setNextQusCount() {
+      if (this.onboarding < 3) {
+        this.qusType = 1
+      } else if (this.onboarding >= 3 && this.onboarding < 5) {
+        this.qusType = 2
+      } else if (this.onboarding >= 5 && this.onboarding < 10) {
+        this.qusType = 3
+      } else if (this.onboarding >= 10) {
+        this.qusType = 4
+      }
+
+      if (this.onboarding === 0) {
+        this.qusCount = 0
+      } else if (this.onboarding === 3) {
+        this.qusCount = 0
+      } else if (this.onboarding === 5) {
+        this.qusCount = 0
+      } else if (this.onboarding === 10) {
+        this.qusCount = 0
+      }
+      this.qusCount = this.qusCount + 1
     }
   },
 }

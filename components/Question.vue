@@ -1,7 +1,7 @@
 <template>
-  <v-card>
-    <v-row justify="center" align="center" class="fill-height pt-5">
-      <v-card-text class="text-center" justify="center" align="center">
+  <v-container>
+    <v-card>
+      <v-card-text justify="center" align="center">
         <v-row v-if="'qus_text' in qus" class="fill-height">
           <v-col
             cols="12"
@@ -28,23 +28,33 @@
         <v-row v-else>
           <v-col
             cols="12"
-            sm="6"
-            md="6"
+            sm="5"
+            md="5"
           >
-            <div class="d-flex justify-start">
-              <v-img
-                contain
-                max-height="120"
-                :src="require(`~/assets/images/${qus.url_qus}`)"
-              />
-            </div>
+            <v-img :src="require(`~/assets/images/${qus.url_qus}`)" />
+            <!-- <v-card
+              flat
+              class="my-auto"
+              height="50%"
+            >
+              <v-container fluid>
+                <v-layout>
+                <v-flex>
+                  <v-img
+                    class="mx-2 my-auto"
+                    :src="require(`~/assets/images/${qus.url_qus}`)"
+                  />
+                </v-flex>
+                </v-layout>
+              </v-container>
+            </v-card> -->
           </v-col>
           <v-col
             cols="12"
-            sm="6"
-            md="6"
+            sm="7"
+            md="7"
           >
-            <v-img :src="require(`~/assets/images/${qus.url_ans}`)" />
+            <v-img :src="require(`~/assets/images/${qus.url_ans}`)" max-width="505" />
           </v-col>
         </v-row>
         <v-chip-group v-model="selection" active-class="success" column class="answer-btn">
@@ -60,8 +70,8 @@
           </v-chip>
         </v-chip-group>
       </v-card-text>
-    </v-row>
-  </v-card>
+    </v-card>
+  </v-container>
 </template>
 
 <script>

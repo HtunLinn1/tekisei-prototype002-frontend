@@ -1,10 +1,10 @@
 <template>
-  <v-container class="text-center">
-    <p v-if="answered_index === -1" class="text-h5">
+  <v-container fluid-width>
+    <p v-if="answered_index === -1" class="text-h5 text-center">
       Part1の問題はいじょうです。<br>
       終了してよろしいですか
     </p>
-    <p v-else class="text-h5">
+    <p v-else class="text-h5 text-center">
       Part1の問題に未回答の問題があります。
     </p>
     <v-container>
@@ -26,7 +26,20 @@
               @click="clickQusId(ans.onboarding)"
             >
               {{ ans.qusId }}.
-              <span v-if="ans.answer">({{ ans.answer }})</span>
+              <span v-if="ans.qusType === 1">
+                ①
+              </span>
+              <span v-if="ans.qusType === 2">
+                ②
+              </span>
+              <span v-if="ans.qusType === 3">
+                ③
+              </span>
+              <span v-if="ans.qusType === 4">
+                ④
+              </span>
+              _{{ ans.qusCount }}
+              <span v-if="ans.answer" class="answer">({{ ans.answer }})</span>
             </v-chip>
           </v-badge>
           <v-chip
@@ -38,7 +51,20 @@
             @click="clickQusId(ans.onboarding)"
           >
             {{ ans.qusId }}.
-             <span v-if="ans.answer">({{ ans.answer }})</span>
+              <span v-if="ans.qusType === 1">
+                ①
+              </span>
+              <span v-if="ans.qusType === 2">
+                ②
+              </span>
+              <span v-if="ans.qusType === 3">
+                ③
+              </span>
+              <span v-if="ans.qusType === 4">
+                ④
+              </span>
+            _{{ ans.qusCount }}
+             <span v-if="ans.answer" class="answer">({{ ans.answer }})</span>
           </v-chip>
             <span>
             </span>
@@ -80,11 +106,14 @@ export default {
     color: red;
   }
   .chip {
-    min-width: 80px;
+    min-width: 90px;
   }
   @media only screen and (min-width: 600px) {
     .chip {
       width: 120px;
+    }
+    .answer {
+      padding-left: 8px;
     }
   }
 </style>
