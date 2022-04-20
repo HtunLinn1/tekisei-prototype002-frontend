@@ -25,20 +25,19 @@
               width="200"
               @click="clickQusId(ans.onboarding)"
             >
-              {{ ans.qusId }}.
-              <span v-if="ans.qusType === 1">
+              <span v-if="ans.qusType === 1" class="pr-2">
                 ①
               </span>
-              <span v-if="ans.qusType === 2">
+              <span v-if="ans.qusType === 2" class="pr-2">
                 ②
               </span>
-              <span v-if="ans.qusType === 3">
+              <span v-if="ans.qusType === 3" class="pr-2">
                 ③
               </span>
-              <span v-if="ans.qusType === 4">
+              <span v-if="ans.qusType === 4" class="pr-2">
                 ④
               </span>
-              _{{ ans.qusCount }}
+              {{ ans.qusCount }}
               <span v-if="ans.answer" class="answer">({{ ans.answer }})</span>
             </v-chip>
           </v-badge>
@@ -50,20 +49,19 @@
             width="200"
             @click="clickQusId(ans.onboarding)"
           >
-            {{ ans.qusId }}.
-              <span v-if="ans.qusType === 1">
+              <span v-if="ans.qusType === 1" class="pr-2">
                 ①
               </span>
-              <span v-if="ans.qusType === 2">
+              <span v-if="ans.qusType === 2" class="pr-2">
                 ②
               </span>
-              <span v-if="ans.qusType === 3">
+              <span v-if="ans.qusType === 3" class="pr-2">
                 ③
               </span>
-              <span v-if="ans.qusType === 4">
+              <span v-if="ans.qusType === 4" class="pr-2">
                 ④
               </span>
-            _{{ ans.qusCount }}
+            {{ ans.qusCount }}
              <span v-if="ans.answer" class="answer">({{ ans.answer }})</span>
           </v-chip>
             <span>
@@ -106,7 +104,10 @@ export default {
     color: red;
   }
   .chip {
-    min-width: 90px;
+    min-width: 85px;
+  }
+  .answer {
+    padding-left: 8px;
   }
   @media only screen and (min-width: 600px) {
     .chip {

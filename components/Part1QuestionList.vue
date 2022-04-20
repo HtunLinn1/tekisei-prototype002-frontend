@@ -151,6 +151,8 @@ export default {
     this.onboarding = JSON.parse(localStorage.getItem("onboarding"))
     // is complete
     this.isComplete = JSON.parse(localStorage.getItem("is-complete"))
+    // is jump
+    this.isJump = JSON.parse(localStorage.getItem("jump-question"))
   },
   methods: {
     // timer

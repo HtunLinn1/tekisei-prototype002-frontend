@@ -25,36 +25,20 @@
             </v-row>
           </v-col>
         </v-row>
-        <v-row v-else>
+        <v-row v-else justify="center">
           <v-col
             cols="12"
             sm="5"
             md="5"
           >
-            <v-img :src="require(`~/assets/images/${qus.url_qus}`)" />
-            <!-- <v-card
-              flat
-              class="my-auto"
-              height="50%"
-            >
-              <v-container fluid>
-                <v-layout>
-                <v-flex>
-                  <v-img
-                    class="mx-2 my-auto"
-                    :src="require(`~/assets/images/${qus.url_qus}`)"
-                  />
-                </v-flex>
-                </v-layout>
-              </v-container>
-            </v-card> -->
+            <v-img :src="require(`~/assets/images/${qus.url_qus}`)" class="image-left-size" />
           </v-col>
           <v-col
             cols="12"
-            sm="7"
-            md="7"
+            sm="6"
+            md="6"
           >
-            <v-img :src="require(`~/assets/images/${qus.url_ans}`)" max-width="505" />
+            <v-img :src="require(`~/assets/images/${qus.url_ans}`)" class="image-right-size" />
           </v-col>
         </v-row>
         <v-chip-group v-model="selection" active-class="success" column class="answer-btn">
@@ -133,5 +117,19 @@ export default {
 }
 .button {
   min-width: 90%;
+}
+.image-left-size {
+  width: 200px;
+}
+.image-right-size {
+  width: 220px;
+}
+@media only screen and (min-width: 712px) {
+  .image-left-size {
+    width: 410px;
+  }
+  .image-right-size {
+    width: 498px;
+  }
 }
 </style>
