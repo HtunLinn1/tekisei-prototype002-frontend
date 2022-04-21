@@ -15,19 +15,20 @@
         </v-btn>
       </v-col>
       <v-col>
-        <v-btn color="primary" :disabled="isFinishIT" @click="clickPart('part2')">
+        <v-btn color="primary" :disabled="isFinishIT" @click="clickPart('ittest')">
           ITテスト
         </v-btn>
       </v-col>
       <v-col>
-        <v-btn :disabled="isFinishResult" color="primary">
+        <v-btn color="primary" :disabled="isFinishResult" @click="clickPart('result')">
           回答・採点
         </v-btn>
       </v-col>
     </v-row>
-    <v-row v-if="partOneQuestionList" justify="center" align="center">
+    <v-row justify="center" align="center">
       <v-col cols="12">
-        <Part1Explain @testFinish="testFinish($event)" />
+        <Part1Explain v-if="partOneQuestionList" @testFinish="testFinish($event)" />
+        <ResultAndMark v-if="resultAndMark" />
       </v-col>
     </v-row>
   </v-container>
@@ -44,10 +45,10 @@ export default {
       partTwoQuestionList: false,
       isFinishPartTwo: true,
 
-      ITQuestionList: false,
+      iTQuestionList: false,
       isFinishIT: true,
 
-      showResult: false,
+      resultAndMark: false,
       isFinishResult: false
     }
   },
@@ -59,19 +60,24 @@ export default {
       this.partOneQuestionList = true
     } else if (localStorage.getItem("user-click-part") === 'part2') {
       this.partTwoQuestionList = true
+    } else if (localStorage.getItem("user-click-part") === 'result') {
+      this.resultAndMark = true
     }
-    console.log(this.isFinishPartTwo)
   },
   methods: {
     clickPart(status) {
       if (status === 'part1') {
         this.partOneQuestionList = true
         localStorage.setItem("user-click-part", status)
-        localStorage.setItem("isfinish-part-one", false)
+        localStorage.setItem("isfinish-part-one", JSON.stringify(false))
       } else if (status === 'part2') {
         this.partTwoQuestionList = true
         localStorage.setItem("user-click-part", status)
-        localStorage.setItem("isfinish-part-two", false)
+        localStorage.setItem("isfinish-part-two", JSON.stringify(false))
+      } else if (status === 'result') {
+        this.resultAndMark = true
+        localStorage.setItem("user-click-part", status)
+        localStorage.setItem("isfinish-result", JSON.stringify(false))
       }
     },
     testFinish(status) {

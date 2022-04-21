@@ -239,6 +239,8 @@ export default {
       }
     },
     testFinish () {
+      localStorage.setItem("part1-selected-answers", localStorage.getItem("selected-answers"))
+
       // calculate point
       this.calculatePoint()
       this.isComplete = false
