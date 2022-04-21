@@ -107,11 +107,16 @@
                 </v-row>
                 <v-row v-if="'start_btn' in qus">
                   <v-col>
-                    <v-row class="text-body2" style="white-space: pre-line; color: red;">
+                   <v-row class="text-body2">
                       <v-col>
-                      {{ qus.start_description }}
+                      {{ qus.start_description1 }}
                       </v-col>
-                    </v-row>
+                    </v-row> 
+                   <v-row class="text-body2" style="white-space: pre-line; color: red;">
+                      <v-col>
+                      {{ qus.start_description2 }}
+                      </v-col>
+                    </v-row> 
                     <v-row>
                       <v-col>
                       <v-btn

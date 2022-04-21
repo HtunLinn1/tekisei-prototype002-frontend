@@ -9,8 +9,7 @@
     </p>
     <v-container>
       <v-row>
-        <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4" class="text-center">
-          <div class="d-flex flex-row mb-6">
+        <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4" align="center" justify="center">
           <v-badge
             v-if="ans.checkbox"
             bordered
@@ -64,9 +63,6 @@
             {{ ans.qusCount }}
              <span v-if="ans.answer" class="answer">({{ ans.answer }})</span>
           </v-chip>
-            <span>
-            </span>
-          </div>
         </v-col>
       </v-row>
     </v-container>
@@ -104,7 +100,7 @@ export default {
     color: red;
   }
   .chip {
-    min-width: 85px;
+    min-width: 83px;
   }
   .answer {
     padding-left: 8px;

@@ -7,7 +7,7 @@
             cols="12"
             sm="6"
             md="6"
-            class="text-h6"
+            class="text-h6 font-weight-black"
             style="word-spacing: 12px;"
           >
             {{ qus.qus_text }}
@@ -18,7 +18,7 @@
             md="6"
           >
             <v-row>
-              <v-col v-for="(ans, i) in qus.answers" :key="i" class="text-h6">
+              <v-col v-for="(ans, i) in qus.answers" :key="i" class="text-h6 font-weight-black">
                 ({{ i + 1 }})&nbsp;<br>
                 {{ ans }}
               </v-col>

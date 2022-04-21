@@ -25,22 +25,22 @@
       height="420"
     >
       <v-card v-if="!isComplete">
-        <v-card-title v-if="onboarding < 3" class="text text-sm-h6 text-body-1">
+        <v-card-title v-if="onboarding < 15" class="font-weight-black body-2">
           ①次の計算式の□に当てはまる数値を５択より選択してください。（１５問）
         </v-card-title>
-        <v-card-title v-else-if="onboarding >= 3 && onboarding < 5 " class="text text-sm-h6 text-body-1">
+        <v-card-title v-else-if="onboarding >= 15 && onboarding < 35 " class="font-weight-black body-2">
           ②次の文字列について法則性を見つけ出し、次にくる文字を５択より選択してください。（２０問）
         </v-card-title>
-        <v-card-title v-else-if="onboarding >= 5 && onboarding < 10 " class="text text-sm-h6 text-body-1">
+        <v-card-title v-else-if="onboarding >= 35 && onboarding < 55 " class="font-weight-black body-2">
           ③次の数列について法則性を見つけ出し、（ ）内にくる数字を５択より選択してください。（２０問）
         </v-card-title>
-        <v-card-title v-else class="text text-sm-h6 text-body-1">
+        <v-card-title v-else-if="onboarding >= 55 && onboarding < 70 " class="font-weight-black body-2">
           ④各列の左側の四つの図形は一定の法則に基づいて並んでいます。次にくる図形を５択より選択してください。（１５問）
         </v-card-title>
       </v-card>
       <span v-if="!isComplete" class="d-flex justify-space-between">
         <div class="font-weight-medium">
-          ({{ qusCount }})
+          {{ qusCount }}
         </div>
         <div class="font-weight-medium">
           {{ onboarding + 1 }} / {{ part1Qus.length }}
@@ -286,23 +286,23 @@ export default {
       localStorage.setItem("selected-answers", JSON.stringify(selectedAnswers))
     },
     setNextQusCount() {
-      if (this.onboarding < 3) {
+      if (this.onboarding < 15) {
         this.qusType = 1
-      } else if (this.onboarding >= 3 && this.onboarding < 5) {
+      } else if (this.onboarding >= 15 && this.onboarding < 35) {
         this.qusType = 2
-      } else if (this.onboarding >= 5 && this.onboarding < 10) {
+      } else if (this.onboarding >= 35 && this.onboarding < 55) {
         this.qusType = 3
-      } else if (this.onboarding >= 10) {
+      } else if (this.onboarding >= 55) {
         this.qusType = 4
       }
 
       if (this.onboarding === 0) {
         this.qusCount = 0
-      } else if (this.onboarding === 3) {
+      } else if (this.onboarding === 15) {
         this.qusCount = 0
-      } else if (this.onboarding === 5) {
+      } else if (this.onboarding === 35) {
         this.qusCount = 0
-      } else if (this.onboarding === 10) {
+      } else if (this.onboarding === 55) {
         this.qusCount = 0
       }
       this.qusCount = this.qusCount + 1
@@ -318,7 +318,8 @@ export default {
     justify-content: center;
   }
   .time {
-    font-size: 25px;
+    font-size: 20px;
+    font-weight: 200px;
   }
   .question {
     position: relative;
