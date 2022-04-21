@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <div v-if="!isStartTest" class="text-center">
       <v-row>
         <v-col class="text-h4">
@@ -142,7 +142,7 @@
       </v-row>
     </div>
     <v-row v-if="isStartTest" justify="center" align="center" class="pt-7">
-      <v-col cols="12">
+      <v-col>
         <Part1QuestionList @testFinish="testFinish($event)" />
       </v-col>
     </v-row>

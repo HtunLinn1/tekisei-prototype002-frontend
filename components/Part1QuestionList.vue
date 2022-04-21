@@ -1,5 +1,5 @@
 <template>
-  <v-container class="question" fluid-width>
+  <v-container class="question" fluid>
     <div class="timer-absolute">
       <div class="timer">
         <div :class="parseInt(formatTime.min) < 1? 'less-time' : 'time'">
@@ -318,7 +318,7 @@ export default {
     justify-content: center;
   }
   .time {
-    font-size: 20px;
+    font-size: 17px;
     font-weight: 200px;
   }
   .question {

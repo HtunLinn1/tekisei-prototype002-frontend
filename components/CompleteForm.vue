@@ -7,7 +7,6 @@
     <p v-else class="text-h5 text-center">
       Part1の問題に未回答の問題があります。
     </p>
-    <v-container>
       <v-row>
         <v-col v-for="(ans) in selected_answers" :key="ans.qusId" cols="4" align="center" justify="center">
           <v-badge
@@ -65,10 +64,6 @@
           </v-chip>
         </v-col>
       </v-row>
-    </v-container>
-    <div >
-
-    </div>
   </v-container>
 </template>
 

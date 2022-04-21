@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-row justify="center" align="center" class="pt-10">
       <v-col cols="12">
         <UserList v-if="userAdmin" />

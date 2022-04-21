@@ -1,5 +1,5 @@
 <template>
-  <v-container>
+  <v-container fluid>
     <v-card>
       <v-card-text justify="center" align="center">
         <v-row v-if="'qus_text' in qus" class="fill-height">
@@ -19,7 +19,7 @@
           >
             <v-row>
               <v-col v-for="(ans, i) in qus.answers" :key="i" class="text-h6 font-weight-black">
-                ({{ i + 1 }})&nbsp;<br>
+                ({{ i + 1 }})<br>
                 {{ ans }}
               </v-col>
             </v-row>
