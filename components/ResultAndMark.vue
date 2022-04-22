@@ -90,6 +90,17 @@
         </v-simple-table>
       </v-card-text>
     </v-card>
+    <v-row class="pt-5 text-center">
+      <v-col>
+        <v-btn
+          depressed
+          color="primary"
+          @click="homePage"
+        >
+          ホームページ
+        </v-btn>
+      </v-col>
+    </v-row>
   </v-container>
 </template>
 
@@ -106,33 +117,41 @@ export default {
     }
   },
   mounted() {
-    this.results = JSON.parse(localStorage.getItem("results"))
-    // total result
-    this.totalCorrect = this.results.part1_result.reduce((a, b) => a + b.correct, 0);
-    this.totalMistake = this.results.part1_result.reduce((a, b) => a + b.mistake, 0);
+    this.caculateScore()
+  },
+  methods: {
+    caculateScore() {
+      this.results = JSON.parse(localStorage.getItem("results"))
+      // total result
+      this.totalCorrect = this.results.part1_result.reduce((a, b) => a + b.correct, 0);
+      this.totalMistake = this.results.part1_result.reduce((a, b) => a + b.mistake, 0);
 
-    this.totalScore = this.totalCorrect - this.totalMistake * 0.25
+      this.totalScore = this.totalCorrect - this.totalMistake * 0.25
 
-    if (this.totalScore >= 71.0) {
-      this.result = "S" 
+      if (this.totalScore >= 71.0) {
+        this.result = "S" 
+      }
+      // 61点以上はA評価
+      else if (this.totalScore >= 61.0) {
+        this.result = "A" 
+      }
+      // 51点以上はB評価
+      else if (this.totalScore >= 51.0) {
+        this.result = "B" 
+      }
+      // 36点以上はC評価
+      else if (this.totalScore >= 36.0) {
+        this.result = "C" 
+      }
+      // それ以下はD評価
+      else {
+        this.result = "D"
+      }
+    },
+    homePage () {
+      this.$emit("toHomeFromResult", { part: 'result' } )
     }
-    // 61点以上はA評価
-    else if (this.totalScore >= 61.0) {
-      this.result = "A" 
-    }
-    // 51点以上はB評価
-    else if (this.totalScore >= 51.0) {
-      this.result = "B" 
-    }
-    // 36点以上はC評価
-    else if (this.totalScore >= 36.0) {
-      this.result = "C" 
-    }
-    // それ以下はD評価
-    else {
-      this.result = "D"
-    }
-  }
+  },
 }
 </script>
 

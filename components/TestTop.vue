@@ -20,7 +20,7 @@
         </v-btn>
       </v-col>
       <v-col>
-        <v-btn color="primary" :disabled="isFinishResult" @click="clickPart('result')">
+        <v-btn color="primary" :disabled="!isFinishPartOne" @click="clickPart('result')">
           回答・採点
         </v-btn>
       </v-col>
@@ -28,7 +28,7 @@
     <v-row justify="center" align="center">
       <v-col cols="12">
         <Part1Explain v-if="partOneQuestionList" @testFinish="testFinish($event)" />
-        <ResultAndMark v-if="resultAndMark" />
+        <ResultAndMark v-if="resultAndMark" @toHomeFromResult="testFinish($event)" />
       </v-col>
     </v-row>
   </v-container>
@@ -48,14 +48,13 @@ export default {
       iTQuestionList: false,
       isFinishIT: true,
 
-      resultAndMark: false,
-      isFinishResult: false
+      resultAndMark: false
     }
   },
   mounted() {
     this.isFinishPartOne = localStorage.getItem("isfinish-part-one") === null? false : JSON.parse(localStorage.getItem("isfinish-part-one"))
-
     this.isFinishPartTwo = localStorage.getItem("isfinish-part-two") === null? true : JSON.parse(localStorage.getItem("isfinish-part-two"))
+
     if (localStorage.getItem("user-click-part") === 'part1') {
       this.partOneQuestionList = true
     } else if (localStorage.getItem("user-click-part") === 'part2') {
@@ -89,6 +88,9 @@ export default {
 
         this.isFinishPartTwo = false
         localStorage.setItem("isfinish-part-two", false)
+      } else if (status.part === 'result') {
+        this.resultAndMark = false
+        localStorage.removeItem("user-click-part")
       }
     }
   },
