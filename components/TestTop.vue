@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row
-      v-if="!partOneQuestionList && !partTwoQuestionList"
+      v-if="!partOneQuestionList && !partTwoQuestionList && !resultAndMark"
       class="d-flex justify-space-around mb-6"
     >
       <v-col>

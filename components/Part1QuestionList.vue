@@ -239,30 +239,96 @@ export default {
       }
     },
     testFinish () {
-      localStorage.setItem("part1-selected-answers", localStorage.getItem("selected-answers"))
-
       // calculate point
       this.calculatePoint()
       this.isComplete = false
       localStorage.removeItem("is-complete")
-      localStorage.removeItem("selected-answers")
       localStorage.removeItem("onboarding")
       localStorage.removeItem("timer")
       this.$emit('testFinish', { part: 'part1' })
+      localStorage.removeItem("selected-answers")
     },
     calculatePoint () {
       const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))
-      let gainPoints = 0
-      let lostPoints = 0
+
+      let correctAns1 = 0
+      let mistakeAns1 = 0
+
+      let correctAns2 = 0
+      let mistakeAns2 = 0
+
+      let correctAns3 = 0
+      let mistakeAns3 = 0
+
+      let correctAns4 = 0
+      let mistakeAns4 = 0
+
+      const choosedAnswersQus1 = []
+      const choosedAnswersQus2 = []
+      const choosedAnswersQus3 = []
+      const choosedAnswersQus4 = []
+
       for (const answer of selectedAnswers) {
+        // calculate correct and mistake
         const index = this.part1Answers.findIndex(ans => ans.qusId === answer.qusId)
-        if (index !== -1 && this.part1Answers[index].answer === answer.answer) {
-          gainPoints = gainPoints + 1
-        } else if (index !== -1 && answer.answer !== "" && this.part1Answers[index].answer !== answer.answer) {
-          lostPoints = lostPoints + 1
+        if (index !== -1 && this.part1Answers[index].answer === answer.answer && answer.qusType === 1) {
+          correctAns1 = correctAns1 + 1
+          answer.choosed_ans = '〇'
+          choosedAnswersQus1.push(answer)
+        } else if (index !== -1 && answer.answer !== "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 1) {
+          mistakeAns1 = mistakeAns1 + 1
+          answer.choosed_ans = '×'
+          choosedAnswersQus1.push(answer)
+        } else if (index !== -1 && answer.answer === "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 1) {
+          answer.choosed_ans = '-'
+          choosedAnswersQus1.push(answer)
+        }
+
+        if (index !== -1 && this.part1Answers[index].answer === answer.answer && answer.qusType === 2) {
+          correctAns2 = correctAns2 + 1
+          answer.choosed_ans = '〇'
+          choosedAnswersQus2.push(answer)
+        } else if (index !== -1 && answer.answer !== "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 2) {
+          mistakeAns2 = mistakeAns2 + 1
+          answer.choosed_ans = '×'
+          choosedAnswersQus2.push(answer)
+        } else if (index !== -1 && answer.answer === "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 2) {
+          answer.choosed_ans = '-'
+          choosedAnswersQus2.push(answer)
+        }
+
+        if (index !== -1 && this.part1Answers[index].answer === answer.answer && answer.qusType === 3) {
+          correctAns3 = correctAns3 + 1
+          answer.choosed_ans = '〇'
+          choosedAnswersQus3.push(answer)
+        } else if (index !== -1 && answer.answer !== "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 3) {
+          mistakeAns3 = mistakeAns3 + 1
+          answer.choosed_ans = '×'
+          choosedAnswersQus3.push(answer)
+        } else if (index !== -1 && answer.answer === "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 3) {
+          answer.choosed_ans = '-'
+          choosedAnswersQus3.push(answer)
+        }
+
+        if (index !== -1 && this.part1Answers[index].answer === answer.answer && answer.qusType === 4) {
+          correctAns4 = correctAns4 + 1
+          answer.choosed_ans = '〇'
+          choosedAnswersQus4.push(answer)
+        } else if (index !== -1 && answer.answer !== "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 4) {
+          mistakeAns4 = mistakeAns4 + 1
+          answer.choosed_ans = '×'
+          choosedAnswersQus4.push(answer)
+        } else if (index !== -1 && answer.answer === "" && this.part1Answers[index].answer !== answer.answer && answer.qusType === 4) {
+          answer.choosed_ans = '-'
+          choosedAnswersQus4.push(answer)
         }
       }
-      const part1Result = gainPoints - (lostPoints * 0.25 )
+      const part1Result = [
+        { test_type: '第Ⅰ部-①', correct: correctAns1, mistake: mistakeAns1, choosed_answers: choosedAnswersQus1 },
+        { test_type: '第Ⅰ部-②', correct: correctAns2, mistake: mistakeAns2, choosed_answers: choosedAnswersQus2 },
+        { test_type: '第Ⅰ部-③', correct: correctAns3, mistake: mistakeAns3, choosed_answers: choosedAnswersQus3 },
+        { test_type: '第Ⅰ部-④', correct: correctAns4, mistake: mistakeAns4, choosed_answers: choosedAnswersQus4 }
+      ]
       localStorage.setItem("results", JSON.stringify({ part1_result: part1Result, part2_result: '', it_result: '' }))
     },
     setCheckbox () {
