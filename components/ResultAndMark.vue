@@ -21,73 +21,44 @@
             </tbody>
           </template>
         </v-simple-table>
-        <v-simple-table>
-          <template #default>
-            <thead>
-              <tr>
-                <th>
-                </th>
-                <th class="font-weight-bold text-left text-h6">
-                  正
-                </th>
-                <th class="font-weight-bold text-left text-h6">
-                  誤
-                </th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr
-                v-for="test in results.part1_result"
-                :key="test.test_type"
+        <v-data-table
+          :headers="resultHeaders"
+          :items="choosed_answers"
+          :expanded.sync="expanded"
+          item-key="test_type"
+          single-expand
+          show-expand
+          class="elevation-1"
+          hide-default-footer
+          mobile-breakpoint="0"
+          @click:row="(item, slot) => slot.expand(!slot.isExpanded)"
+        >
+          <template #[`item.data-table-expand`]="{ item, isExpanded }">
+            <td v-if="'choosed_answers' in item" class="text-end">
+              <v-btn
+                icon
+                class="v-data-table__expand-icon"
+                :class="{'v-data-table__expand-icon--active' : isExpanded}"
               >
-                <td class="font-weight-bold text-body-1 d-flex justify-center pt-2">
-                  <div class="pt-1">{{ test.test_type }}</div>
-                  <div class="text-center">
-                    <v-menu 
-                      offset-y
-                      transition="slide-x-transition"
-                      bottom
-                      right
-                    >
-                      <template #activator="{ on, attrs }">
-                        <v-btn
-                          color="primary"
-                          icon
-                          v-bind="attrs"
-                          v-on="on"
-                        >
-                          <v-icon>
-                            mdi-menu-down
-                          </v-icon>
-                        </v-btn>
-                      </template>
-                      <v-list>
-                        <v-list-item
-                          v-for="(ans, index) in test.choosed_answers"
-                          :key="index"
-                        >
-                          <v-list-item-title class="d-flex justify-space-around">
-                            <span class="pr-5">
-                              {{ ans.qusCount }}
-                            </span>
-                            {{ ans.choosed_ans }}
-                          </v-list-item-title>
-                        </v-list-item>
-                      </v-list>
-                    </v-menu>
-                  </div>
-                </td>
-                <td>{{ test.correct }}</td>
-                <td>{{ test.mistake }}</td>
-              </tr>
-              <tr class="font-weight-bold text-body-1">
-                <td class="text-center">計</td>
-                <td>{{ totalCorrect }}</td>
-                <td>{{ totalMistake }}</td>
-              </tr>
-            </tbody>
+                <v-icon>mdi-chevron-down</v-icon>
+              </v-btn>
+            </td>
           </template>
-        </v-simple-table>
+          <template #expanded-item="{ headers, item }">
+            <td v-if="'choosed_answers' in item" :colspan="headers.length">
+              <table>
+                <tr v-for="(ans, index) in item.choosed_answers" :key="index">
+                  <td class="pr-5 pl-16">
+                    {{ ans.qusCount }}
+                  </td>
+                  <td>
+                    {{ ans.choosed_ans }}
+                  </td>
+                </tr>
+              </table>
+            </td>
+          </template>
+        </v-data-table>
       </v-card-text>
     </v-card>
     <v-row class="pt-5 text-center">
@@ -113,7 +84,21 @@ export default {
       totalCorrect: 0,
       totalMistake: 0,
       totalScore: 0.0,
-      result: ''
+      result: '',
+      choosed_answers: [],
+
+      expanded: [],
+      singleExpand: false,
+      resultHeaders: [
+        {
+          text: '',
+          align: 'start',
+          sortable: false,
+          value: 'test_type',
+        },
+        { text: '正', value: 'correct', sortable: false },
+        { text: '誤', value: 'mistake', sortable: false },
+      ]
     }
   },
   mounted() {
@@ -126,6 +111,11 @@ export default {
       this.totalCorrect = this.results.part1_result.reduce((a, b) => a + b.correct, 0);
       this.totalMistake = this.results.part1_result.reduce((a, b) => a + b.mistake, 0);
 
+      const totalCorrectMistake = { test_type: '計', correct: this.totalCorrect, mistake: this.totalMistake }
+
+      this.choosed_answers = this.results.part1_result
+      this.choosed_answers.push(totalCorrectMistake)
+      
       this.totalScore = this.totalCorrect - this.totalMistake * 0.25
 
       if (this.totalScore >= 71.0) {
@@ -155,16 +145,16 @@ export default {
 }
 </script>
 
-<style scoped>
-  .v-list-item {
-    align-items: center;
-    display: flex;
-    flex: 1 1 100%;
-    letter-spacing: normal;
-    min-height: 25px;
-    outline: none;
-    padding: 0 16px;
-    position: relative;
-    text-decoration: none;
-  }
+<style>
+.v-data-table .v-data-table-header tr th {
+  font-size: 18px !important;
+}
+
+.v-data-table .v-data-table-item tr td {
+  font-size: 18px !important;
+}
+
+.td {
+  font-size: 25px !important;
+}
 </style>
