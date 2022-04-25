@@ -25,7 +25,7 @@
           :headers="resultHeaders"
           :items="choosed_answers"
           :expanded.sync="expanded"
-          item-key="test_type"
+          item-key="qus_type"
           single-expand
           show-expand
           class="elevation-1"
@@ -46,7 +46,27 @@
           </template>
           <template #expanded-item="{ headers, item }">
             <td v-if="'choosed_answers' in item" :colspan="headers.length">
-              <table>
+              <table v-if="bkPoint.table === 'horizontal'" class="pl-16">
+                <tr>
+                  <td class="pr-7">
+                    問題<br>
+                    <span>回答</span>
+                  </td>
+                  <td v-for="(ans, index) in item.choosed_answers" :key="index" class="pr-7">
+                    {{ ans.qusCount }}<br>
+                    <span>{{ ans.choosed_ans }}</span>
+                  </td>
+                </tr>
+              </table>
+              <table v-if="bkPoint.table === 'vertical'">
+                <tr>
+                  <td class="pr-5 pl-16">
+                    問題
+                  </td>
+                  <td>
+                    回答
+                  </td>
+                </tr>
                 <tr v-for="(ans, index) in item.choosed_answers" :key="index">
                   <td class="pr-5 pl-16">
                     {{ ans.qusCount }}
@@ -81,8 +101,8 @@ export default {
   data() {
     return {
       results: '',
-      totalCorrect: 0,
-      totalMistake: 0,
+      totalCorrect: 0.0,
+      totalMistake: 0.0,
       totalScore: 0.0,
       result: '',
       choosed_answers: [],
@@ -94,11 +114,38 @@ export default {
           text: '',
           align: 'start',
           sortable: false,
-          value: 'test_type',
+          value: 'qus_type',
         },
         { text: '正', value: 'correct', sortable: false },
         { text: '誤', value: 'mistake', sortable: false },
       ]
+    }
+  },
+  computed: {
+    bkPoint () {
+      // $vuetify.breakpointでブレークポイントを取得
+      const bkPt = this.$vuetify.breakpoint
+      const point = { name: bkPt.name, table: 'horizontal' }
+      switch (bkPt.name) {
+        case 'xl':
+          point.table = 'horizontal'
+          break
+        case 'lg':
+          point.table = 'horizontal'
+          break
+        case 'md':
+          point.table = 'horizontal'
+          break
+        case 'sm':
+          point.table = 'vertical'
+          break
+        case 'xs':
+          point.table = 'vertical'
+          break
+        default:
+          break
+      }
+      return point
     }
   },
   mounted() {
@@ -111,12 +158,12 @@ export default {
       this.totalCorrect = this.results.part1_result.reduce((a, b) => a + b.correct, 0);
       this.totalMistake = this.results.part1_result.reduce((a, b) => a + b.mistake, 0);
 
-      const totalCorrectMistake = { test_type: '計', correct: this.totalCorrect, mistake: this.totalMistake }
+      const totalCorrectMistake = { qus_type: '計', correct: this.totalCorrect, mistake: this.totalMistake }
 
       this.choosed_answers = this.results.part1_result
       this.choosed_answers.push(totalCorrectMistake)
-      
       this.totalScore = this.totalCorrect - this.totalMistake * 0.25
+      this.totalScore = this.totalScore === 0? '0.0' : this.totalScore
 
       if (this.totalScore >= 71.0) {
         this.result = "S" 

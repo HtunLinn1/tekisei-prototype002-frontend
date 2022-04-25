@@ -324,10 +324,10 @@ export default {
         }
       }
       const part1Result = [
-        { test_type: '第Ⅰ部-①', correct: correctAns1, mistake: mistakeAns1, choosed_answers: choosedAnswersQus1 },
-        { test_type: '第Ⅰ部-②', correct: correctAns2, mistake: mistakeAns2, choosed_answers: choosedAnswersQus2 },
-        { test_type: '第Ⅰ部-③', correct: correctAns3, mistake: mistakeAns3, choosed_answers: choosedAnswersQus3 },
-        { test_type: '第Ⅰ部-④', correct: correctAns4, mistake: mistakeAns4, choosed_answers: choosedAnswersQus4 }
+        { qus_type: '第Ⅰ部-①', correct: correctAns1, mistake: mistakeAns1, choosed_answers: choosedAnswersQus1 },
+        { qus_type: '第Ⅰ部-②', correct: correctAns2, mistake: mistakeAns2, choosed_answers: choosedAnswersQus2 },
+        { qus_type: '第Ⅰ部-③', correct: correctAns3, mistake: mistakeAns3, choosed_answers: choosedAnswersQus3 },
+        { qus_type: '第Ⅰ部-④', correct: correctAns4, mistake: mistakeAns4, choosed_answers: choosedAnswersQus4 }
       ]
       localStorage.setItem("results", JSON.stringify({ part1_result: part1Result, part2_result: '', it_result: '' }))
     },
