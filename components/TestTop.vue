@@ -28,6 +28,7 @@
     <v-row justify="center" align="center">
       <v-col cols="12">
         <Part1Explain v-if="partOneQuestionList" @testFinish="testFinish($event)" />
+        <Part2Explain v-if="partTwoQuestionList" />
         <ResultAndMark v-if="resultAndMark" @toHomeFromResult="testFinish($event)" />
       </v-col>
     </v-row>

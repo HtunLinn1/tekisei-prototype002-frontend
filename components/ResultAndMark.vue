@@ -154,7 +154,7 @@ export default {
   font-size: 18px !important;
 }
 
-.td {
-  font-size: 25px !important;
+td {
+  font-size: 17px !important;
 }
 </style>
