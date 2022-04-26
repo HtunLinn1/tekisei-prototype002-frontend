@@ -101,8 +101,10 @@
 </template>
 
 <script>
+import { request } from 'http'
 import questions from '@/assets/data/part1QuestionList.json'
 import answersJson from '@/assets/data/part1AnswerList.json'
+import UserRequest from '~/plugins/axios/request/request'
 export default {
   data: () => ({
     part1Qus: questions,
@@ -247,6 +249,8 @@ export default {
       localStorage.removeItem("timer")
       this.$emit('testFinish', { part: 'part1' })
       localStorage.removeItem("selected-answers")
+
+      UserRequest.userRequest(request, 'TEST-1 FINISH')
     },
     calculatePoint () {
       const selectedAnswers = JSON.parse(localStorage.getItem("selected-answers"))

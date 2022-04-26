@@ -150,8 +150,11 @@
 </template>
 
 <script>
+import { request } from 'http'
 import questions from '@/assets/data/part1Explain.json'
+import UserRequest from '~/plugins/axios/request/request'
 export default {
+  middleware: 'remoteaddress',
   data () {
     return {
       questionList: questions,
@@ -166,6 +169,9 @@ export default {
     startTest () {
       this.isStartTest = true
       localStorage.setItem("is-start-test", this.isStartTest)
+
+      UserRequest.userRequest(request, 'EXPLAIN-1 FINISH')
+      UserRequest.userRequest(request, 'TEST-1 START')
     },
     testFinish(status) {
       localStorage.removeItem("is-start-test")

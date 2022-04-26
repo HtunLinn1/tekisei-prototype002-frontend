@@ -54,6 +54,8 @@
 </template>
 
 <script>
+  import { request } from 'http'
+  import UserRequest from '~/plugins/axios/request/request'
   export default {
     name: 'LoginPage',
     middleware: 'auth',
@@ -85,6 +87,8 @@
             (response) => {
               localStorage.setItem("user-admin", JSON.stringify(response.data.data.admin))
               this.error = null
+
+              UserRequest.userRequest(request, 'LOGIN')
             },
             (error) => {
               this.error = error.data.errors

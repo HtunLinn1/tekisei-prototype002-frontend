@@ -36,6 +36,8 @@
 </template>
 
 <script>
+import { request } from 'http'
+import UserRequest from '~/plugins/axios/request/request'
 export default {
   name: "TestTopPage",
   data() {
@@ -70,6 +72,8 @@ export default {
         this.partOneQuestionList = true
         localStorage.setItem("user-click-part", status)
         localStorage.setItem("isfinish-part-one", JSON.stringify(false))
+
+        UserRequest.userRequest(request, 'EXPLAIN-1 START')
       } else if (status === 'part2') {
         this.partTwoQuestionList = true
         localStorage.setItem("user-click-part", status)
