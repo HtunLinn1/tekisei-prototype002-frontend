@@ -154,7 +154,6 @@ import { request } from 'http'
 import questions from '@/assets/data/part1Explain.json'
 import UserRequest from '~/plugins/axios/request/request'
 export default {
-  middleware: 'remoteaddress',
   data () {
     return {
       questionList: questions,
