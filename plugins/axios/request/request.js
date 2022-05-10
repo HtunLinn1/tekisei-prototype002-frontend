@@ -1,3 +1,4 @@
+// const requestIp = require('request-ip');
 export default {
   userRequest(ctx, userOpera) {
     localStorage.setItem("request",
@@ -10,6 +11,10 @@ export default {
     const date = current.getFullYear()+'-'+(current.getMonth()+1)+'-'+current.getDate();
     const time = current.getHours() + ":" + current.getMinutes() + ":" + current.getSeconds();
     const dateTime = date +' '+ time;
+
+    // const clientIp = requestIp.getClientIp(ctx.req);
+
+    // console.log(clientIp)
 
     const userAgent = ctx.req
     ? ctx.req.headers["user-agent"]
